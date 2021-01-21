@@ -202,3 +202,238 @@ Omawiane na wykładzie 8_201204.
 Z inspiracji 1 bierzemy kierowanie ruchu w podsieci (gdzie sieć globalną też traktujemy jako podsieć).
 
 Z inspiracji 2 bierzemy 2 płaszczyzny hierarchii oraz mechanizm podziału obciążeń (wzajemny przelew sam się zaimplementuje, bo w podsieci tranzytowej robimy inspirację 1). Zmieniamy tą rzecz, że nie wszystkie węzły podsieci są połączone z nadrzędnymi, a jedynie węzeł pełniący rolę węzła wyjściowego.
+
+## Scemariusze
+
+### 1 - Połączenie pomyślnie między podsieciowe, wewnątrz strefowe.
+
+![sc_1_global](img/sc_1_global.png)
+
+​	*Od 16 przestałem rysować, te strzałki, bo mało ważne, a bałagan*
+
+#### 1.  CPCC_Ania do NCC - ConnectionRequestPYT(Ania, Bartek, 5 slotów)
+
+Opcjonalnie: NCC do CPCC_Bartek - CallAcceptPYT(Ania) i jak Bartek odeśle CallAcceptODP(200 OK) to gituwa lecimy dalej.
+
+> Ania żąda od sieci połączenia z Bartkiem.
+
+#### 2.  NCC do P i D - Policy i Directory
+
+Tu się nie bawimy w wysyłanie, Mycko lub AT gdzieś mówili, że to może być w NCC zasymulowane tylko logiem.
+
+No ale ogólnie NCC ma jakąś tablicę i zamienia Ania i Bartek na porty brzegowe, którymi są oni dołączeni do sieci.
+
+Ania - 11, Bartek - 21
+
+Na tej podstawie NCC ma **adresy** dla połączenia. Teraz NCC wymyśla jakieś **id** dla połączenia, które jest globalne na całą sieć. **Liczba slotów** została określona w ConnectionRequest.
+
+> NCC zamienia imię Bartek na adres docelowy, czyli nr portu brzegowego, którym jest on do sieci podłączony.
+
+#### 3.  NCC do CC - ConnectionRequestPYT(id=1, src=11, dst=21, sl=5)
+
+NCC zleca podsieć (tu akurat całej sieci) zestawienie połączenia.
+
+W tym momencie CC zaczyna czekać na ConnectionRequestODP.
+
+> NCC zleca CC globalnemu zestawienie połączenia, w jego podsieci (czyli całej sieci), między Anią i Bartkiem.
+
+#### 4. CC do CC_1 - ConnectionRequestPYT(id=1, src=11, dst=21, sl=5)
+
+CC zna porty węzłów w swojej podsieci, więc wie, że jak src=11, to musi zażądać zestawienie połączenia przez CC_1, który zajmuje się podsiecią SN1.
+
+W tym momencie CC zaczyna czekać na ConnectionRequestODP.
+
+> CC po porcie Ani, wie, że trzeba zacząć od SN1, czyli zwraca się do CC tej podsieci (ale w jego podsieci jest to węzeł), żeby zestawił on połączenie między portami u siebie.
+>
+> Mówi mu tak, masz zacząć stąd 11, a dojść do 21. Zrób połączenie między swoim portami, i przekaż następnemu po drodze do 21 węzłowi, gdzie ma się do Ciebie dołączyć.
+
+#### 5. CC_1 do RC -  RouteTableQueryPYT(id=1, src=11, dst=21, sl=5)
+
+CC_1 jest Connection Controllerem węzłowym, więc wysyła zapytanie do RC o drogę. A dokładniej, przez który węzeł ma przedłużyć połączenie, a dokładniej, którym łączem (a dokładniej będzie to łącze, które wychodzi z danego portu, który CC_1 dostanie w odpowiedzi od RC).
+
+> CC_1 jak dostał misję to musi spytać o drogę, o następne łącze na drodze do 21.
+
+#### 6. RC do CC_1 - RouteTableQueryODP(res=14, slots={5,10})
+
+RC ma w tabeli wpis
+
+| src  | dst  | res  |
+| :--: | :--: | :--: |
+|  11  |  21  |  14  |
+
+Dodatkowo RC dostało w RouteTableQueryPYT jako parametr liczbę wymaganych slotów. Musi więc on poszukać 5 wolnych slotów (obok siebie) na wszystkich łączach, aż do adresu docelowego. 
+
+Stąd parametry jakie RC zwraca w RouteTableQueryODP.
+
+W tej chwili wszystkie od 0 do 99 sloty są wolne. Ale potem na podstawie wiedzy zebranej od LRM, RC będzie musiał decydować jak to mądrze zrobić. Dodatkowo, RC widzi, że to nowe połączenie (bo w swoim spisie nie ma jeszcze połączenia o id=1), więc może sobie już coś pokombinować, pozmieniać coś w tej swojej tablicy, żeby jak go zaraz znowu będą pytać optymalnie odpowiadać (bez pętli, omijając zepsute łącza).
+
+Jeśli chodzi o mechanizm podziału obciążeń z inspiracji 2, to to losowanie dla węzła robi RC za niego.
+
+
+
+Teraz CC_1 jak dostało odpowiedź ma 3 następujące misje:
+
+- zarezerwować zasoby na łączu między jego podsiecią(węzłem), a podsiecią(węzłem) przez, które będzie przechodziło połączenie (czyli CC_0)
+- przedłużyć połączenie, które dostał od CC do CC_0
+- zlecić zestawienie połączenie w swojej podsieci(węźle), co generuje nowy wątek i się będzie działo współbieżnie (lub CC_1 dopiero przedłuży do CC_0 jak dostanie odpowiedź, że w podsieci(węźle) się udało zestawić połączenie)
+
+> CC_1 wie, którym portem ze swojej podsieci wyjść, musi teraz tylko zestawić wewnętrzne połączenie, i rozkazać CC_0 dołączyć się do tego połączenie, oraz powiedzieć gdzie ma ono końcowo i się dostać. CC_0 zrobi tą samą akcję.
+
+#### 7. CC_1 do LRM_14 - LinkConnectionRequestPYT(slots={5-10})
+
+CC_1 zleca LRM_14 rezerwację zasobów na łączu. W odpowiedzi CC_1 dostanie port, który jest na drugim końcu łącza.
+
+LRM_14 tutaj współbieżnie informuje o rezerwacji zasobu RC na styku LocalTopologyPYT(type=ADD, link={14,01}, slots={5-10}).
+
+> CC_1 zestawia połączenie między sobą a następnym węzłem na drodze do 21.
+
+#### 8. LRM_14 do CC_1 -  LinkConnectionRequestODP(res=01)
+
+LRM_14 wie do jakiego portu jest podłączone jego łącze, więc odsyła ten port do CC_1, że ten wiedział, co dać jako parametr "src" w PeerCoordinationPYT do CC_0.
+
+>CC_1 wie, z jakiego portu połączenie ma zacząć następny węzeł.
+
+#### 9. CC_1 do CC_0 - PeerCoordinationPYT(id=1, src=01, dst=21, sl=5)
+
+CC_1 przedłuża połączenie do CC_0.
+
+CC_1 zaczyna czekać na PeerCoordinationODP.
+
+> CC_1 rozkazuje CC_0 zrobić te same sztuczki co sam dostał od CC
+
+#### 10. CC_0 do RC -  RouteTableQueryPYT(id=1, src=01, dst=21, sl=5)
+
+#### 11. RC do CC_0 - RouteTableQueryODP(res=04, slots={5,10})
+
+RC ma w tabeli wpis:
+
+| src  | dst  | res  |
+| :--: | :--: | :--: |
+|  11  |  21  |  14  |
+
+RC dzięki, temu, że dostało id połączenia, które jest globalne, wie, że musi przypisać mu te same sloty co wcześniej.
+
+
+
+Teraz CC_0 jak dostało odpowiedź ma 3 następujące misje:
+
+- zarezerwować zasoby na łączu między jego podsiecią(węzłem), a podsiecią(węzłem) przez, które będzie przechodziło połączenie (czyli CC_2)
+- przedłużyć połączenie, które dostał od CC_1 do CC_2
+- zlecić zestawienie połączenie w swojej podsieci(węźle), co generuje nowy wątek i się będzie działo współbieżnie (lub CC_0 dopiero przedłuży do CC_2 jak dostanie odpowiedź, że w podsieci(węźle) się udało zestawić połączenie)
+
+#### 12. CC_0 do LRM_04 - LinkConnectionRequestPYT(slots={5-10})
+
+CC_0 zleca LRM_04 rezerwację zasobów na łączu. W odpowiedzi CC_0 dostanie port, który jest na drugim końcu łącza.
+
+LRM_04 tutaj współbieżnie informuje o rezerwacji zasobu RC na styku LocalTopologyPYT(type=ADD, link={04,24}, slots={5-10}).
+
+#### 13. LRM_04 do CC_0 -  LinkConnectionRequestODP(res=24)
+
+LRM_14 wie do jakiego portu jest podłączone jego łącze, więc odsyła ten port do CC_1, że ten wiedział, co dać jako parametr "src" w PeerCoordinationPYT do CC_0.
+
+#### 14. CC_0 do CC_2 - PeerCoordinationPYT(id=1, src=24, dst=21, sl=5)
+
+CC_0 przedłuża połączenie do CC_2.
+
+CC_0 zaczyna czekać na PeerCoordinationODP.
+
+#### 15. CC_2 do RC -  RouteTableQueryPYT(id=1, src=24, dst=21, sl=5)
+
+#### 16. RC do CC_2 - RouteTableQueryODP(res=21, slots={5,10})
+
+RC ma w tabeli wpis:
+
+| src  | dst  | res  |
+| :--: | :--: | :--: |
+|  11  |  21  |  14  |
+
+CC_2 dostało w odpowiedź port, który był dst całego połączenia, co oznacza, że to koniec przygody.
+
+CC_2 ma misję zestawić połączenie w swojej podsieci.
+
+CC_2 nie rezerwuje żadnych zasobów na łączach.
+
+Po prostu po udanej próbie zestawienia u siebie połączenie wyślę do CC_0 PeerCoordinationODP(res=OK).
+
+#### 17. CC_2 do CC_0 - PeerCoordinationODP(res=OK)
+
+#### 18. CC_0 do CC_1 - PeerCoordinationODP(res=OK)
+
+#### 29. CC_1 do CC - ConnectionRequestODP(res=OK)
+
+#### 20. CC zleca zestawienie połączeń między Anią a portem 11 oraz, między Bartkiem a portem 21
+
+nie chce juz mi sie tego pisac
+
+#### 21. CC do NCC - ConnectionRequestODP(res=OK)
+
+Ania dostaje info, że jest połączona.
+
+![sc_1_sn](img/sc_1_sn.png)
+
+
+
+W kroku 6 w sieci domenowej, napisałem, iż CC_1 zleca zestawienie połączenia w swojej podsieci. Tutaj wracamy do tego wątku. Konwencja nazywania kroków jest taka, że jeśli od wydarzenia 6, zaczyna się nowy wątek to dodaje się kropkę, i zaczyna numeracje. Taki fork.
+
+> Dobra nieważne, porzucam idee współbieżnego że najpierw sieć zestawia połączenie pomiędzy swoimi podsieciami, a potem podsieci i tak w kółko, bo, to skomplikuje proces wycofania się z przechodzenia przez pewne węzły, gdy zabraknie tam zasobów podczas zestawiania połączenia.
+
+#### 6.1. C_1 do C_11 - ConnectionRequestPYT(id=1, src=11, dst=14, sl=5)
+
+#### 6.2. C_11 do RC_1 RouteTableQueryPYT(id=1, src=11, dst=14, sl=5)
+
+#### 6.3. RC_1 do CC_11 - RouteTableQueryODP(res=111, slots={5,10})
+
+RC_1 ma w tabeli wpis:
+
+| src  | dst  | res  |
+| :--: | :--: | :--: |
+|  11  |  14  | 111  |
+
+Oraz jak dostał, że połączenie o id=1, to spytał na NetworkTopology RC wyżej, o to jakie sloty przypisał temu połączeniu poza SN1.
+
+Teraz CC_11 jak dostało odpowiedź ma 3 następujące misje:
+
+- zarezerwować zasoby na łączu między jego podsiecią(węzłem), a podsiecią(węzłem) przez, które będzie przechodziło połączenie (czyli CC_2)
+
+- przedłużyć połączenie, które dostał od CC_1 do CC_2
+
+- zlecić zestawienie połączenie w swojej podsieci(węźle). Ale tu podsiecią jest ruter, do którego przylega CC_11, więc CC_11 zleci ruterowi dodanie wpisu do FIB, a jakiego wpisu?
+  O takiego:
+
+  | in_port | slots  | out_port |
+  | :-----: | :----: | :------: |
+  |   11    | {5-10} |   111    |
+
+  
+
+#### 6.4. CC_11 do LRM_111 - LinkConnectionRequestPYT(slots={5-10})
+
+#### 6.5. LRM_11 do CC_11 -  LinkConnectionRequestODP(res=141)
+
+#### 6.6. CC_11 do CC_14 - PeerCoordinationPYT(id=1, src=141, dst=14, sl=5)
+
+#### 6.7 C_14 do RC_1 RouteTableQueryPYT(id=1, src=141, dst=14, sl=5)
+
+#### 6.8 RC_1 do CC_14 - RouteTableQueryODP(res=14, slots={5,10})
+
+RC_1 ma w tabeli wpis:
+
+| src  | dst  | res  |
+| :--: | :--: | :--: |
+| 141  |  14  |  14  |
+
+CC_14 dostało jako odpowiedź port, który był, dst całego połączenia (w sensie podsieci), czyli że to koniec przygody.
+
+CC_14 ma misję zestawić połączenie w swojej podsieci, czyli wypełnić FIB routera czymś takim.
+
+| in_port | slots  | out_port |
+| :-----: | :----: | :------: |
+|   141   | {5-10} |    14    |
+
+CC_14 nie rezerwuje żadnych zasobów na łączach.
+
+Po prostu po udanej próbie zestawienia u siebie połączenie wyślę do CC_11 PeerCoordinationODP(res=OK).
+
+#### 6.9 CC_14 do CC_11 - PeerCoordinationODP(res=OK)
+
+#### 6.10 CC_11 do CC_1 - ConnectionRequestODP(res=OK)
