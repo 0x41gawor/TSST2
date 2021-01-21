@@ -205,6 +205,10 @@ Z inspiracji 2 bierzemy 2 płaszczyzny hierarchii oraz mechanizm podziału obci�
 
 ## Scemariusze
 
+Polecam je tak czytać, że najpierw jeden monitor rysunek, drugi monitor opis krokowy, w głowie nieco wiedzy ASON'a i pod każdym krokiem, to co napisałem "quot'em", to takie pierwsze przybliżenie.
+
+
+
 ### 1 - Połączenie pomyślnie między podsieciowe, wewnątrz strefowe.
 
 ![sc_1_global](img/sc_1_global.png)
@@ -303,6 +307,8 @@ CC_1 zaczyna czekać na PeerCoordinationODP.
 
 #### 10. CC_0 do RC -  RouteTableQueryPYT(id=1, src=01, dst=21, sl=5)
 
+> CC_0 pyta RC, które łącze jest następne na drodze do 21
+
 #### 11. RC do CC_0 - RouteTableQueryODP(res=04, slots={5,10})
 
 RC ma w tabeli wpis:
@@ -321,11 +327,15 @@ Teraz CC_0 jak dostało odpowiedź ma 3 następujące misje:
 - przedłużyć połączenie, które dostał od CC_1 do CC_2
 - zlecić zestawienie połączenie w swojej podsieci(węźle), co generuje nowy wątek i się będzie działo współbieżnie (lub CC_0 dopiero przedłuży do CC_2 jak dostanie odpowiedź, że w podsieci(węźle) się udało zestawić połączenie)
 
+> RC zwraca do CC_0 że łączem {04,24}, czyli następny węzeł to SN2.
+
 #### 12. CC_0 do LRM_04 - LinkConnectionRequestPYT(slots={5-10})
 
 CC_0 zleca LRM_04 rezerwację zasobów na łączu. W odpowiedzi CC_0 dostanie port, który jest na drugim końcu łącza.
 
 LRM_04 tutaj współbieżnie informuje o rezerwacji zasobu RC na styku LocalTopologyPYT(type=ADD, link={04,24}, slots={5-10}).
+
+> CC_0 rezerwuje zasoby na łączu wskazanym przez RC
 
 #### 13. LRM_04 do CC_0 -  LinkConnectionRequestODP(res=24)
 
@@ -337,7 +347,11 @@ CC_0 przedłuża połączenie do CC_2.
 
 CC_0 zaczyna czekać na PeerCoordinationODP.
 
+> CC_0 przedłuża połączenie do CC_2 (tak mu RC kazało)
+
 #### 15. CC_2 do RC -  RouteTableQueryPYT(id=1, src=24, dst=21, sl=5)
+
+> CC_2 pyta o drogę
 
 #### 16. RC do CC_2 - RouteTableQueryODP(res=21, slots={5,10})
 
@@ -355,6 +369,8 @@ CC_2 nie rezerwuje żadnych zasobów na łączach.
 
 Po prostu po udanej próbie zestawienia u siebie połączenie wyślę do CC_0 PeerCoordinationODP(res=OK).
 
+> RC zwraca CC_2, port którym CC_2 ma wyjść ze swojej podsieci, okazuje się, że to cel podróży, czyli połączenie w sieci zestawione!
+
 #### 17. CC_2 do CC_0 - PeerCoordinationODP(res=OK)
 
 #### 18. CC_0 do CC_1 - PeerCoordinationODP(res=OK)
@@ -368,6 +384,8 @@ nie chce juz mi sie tego pisac
 #### 21. CC do NCC - ConnectionRequestODP(res=OK)
 
 Ania dostaje info, że jest połączona.
+
+**Przejdźmy teraz do tego, co się dzieje w podsieciach Tutaj SN1.**
 
 ![sc_1_sn](img/sc_1_sn.png)
 
@@ -437,3 +455,20 @@ Po prostu po udanej próbie zestawienia u siebie połączenie wyślę do CC_11 P
 #### 6.9 CC_14 do CC_11 - PeerCoordinationODP(res=OK)
 
 #### 6.10 CC_11 do CC_1 - ConnectionRequestODP(res=OK)
+
+
+
+
+
+### 2 Połączenie pomyślnie wewnątrz podsieciowe.
+
+Tu trzeba zadbać, żeby RC globalne sprytnie wykorzystywało wiedze o użytym w tej podsieci slotach na łączach.
+
+### 3 Połączenie pomyślnie między strefowe
+
+## Opis komponentów ASON
+
+SDL, MSC co się da. Tak, żeby po tym można było tylko to czytać i napisać.
+
+Opis styków i protokołów na nich.
+
