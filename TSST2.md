@@ -209,7 +209,7 @@ Polecam je tak czytać, że najpierw jeden monitor rysunek, drugi monitor opis k
 
 
 
-### 1 - Połączenie pomyślnie między podsieciowe, wewnątrz strefowe.
+### 1 - Połączenie pomyślnie między-podsieciowe, wewnątrz-strefowe.
 
 ![sc_1_global](img/sc_1_global.png)
 
@@ -379,7 +379,7 @@ Po prostu po udanej próbie zestawienia u siebie połączenie wyślę do CC_0 Pe
 
 #### 20. CC zleca zestawienie połączeń między Anią a portem 11 oraz, między Bartkiem a portem 21
 
-nie chce juz mi sie tego pisac
+Nie jednak nie zleca, światłowody to są tylko w sieci operatora, w węzłach brzegowych są transpondery, które zamieniają sygnały optyczne na coś tam innego. To już nie jest nasza sprawa.
 
 #### 21. CC do NCC - ConnectionRequestODP(res=OK)
 
@@ -458,13 +458,55 @@ Po prostu po udanej próbie zestawienia u siebie połączenie wyślę do CC_11 P
 
 
 
-
-
-### 2 Połączenie pomyślnie wewnątrz podsieciowe.
+### 2 Połączenie pomyślnie, wewnątrz-podsieciowe.
 
 Tu trzeba zadbać, żeby RC globalne sprytnie wykorzystywało wiedze o użytym w tej podsieci slotach na łączach.
 
-### 3 Połączenie pomyślnie między strefowe
+![sc_2_global](img/sc_2_global.png)
+
+#### 1. CPCC do NCC - ConnectionRequestPYT(Ania, Franek, 12 slotów Ania robi live 'a)
+
+#### 2. NCC do P i D - Policy i Directory
+
+#### 3. NCCC do CC - ConnectionRequestPYT(id=2, src=11, dst=12, sl=12)
+
+#### 4. CC do CC_1 - ConnectionRequestPYT(id=2, src=11, dst=12, sl=12)
+
+#### 5. CC_1 do RC -  RouteTableQueryPYT(id=2, src=11, dst=12, sl=12)
+
+#### 6. RC do CC_1 - RouteTableQueryODP(res=12, slots={11,23})
+
+RC ma w tabeli wpis:
+
+| src  | dst  | res  |
+| :--: | :--: | :--: |
+|  11  |  12  |  12  |
+
+RC mogło by już zapamiętać sobie, że w podsieci są łącza, które wykorzystują już sloty {11,23}, ale od są styki NetworkTopology.  Dodatkowo, RC globalne, nie może wykluczyć zakresu slotów {11,23} dla podsieci Sn1, ze względu na jedno połączenie, które w niej z tych slotów korzysta. Akurat to połączenie jest między 11 a 12 (spójrz na rysunek SN1), ale na innych łączach ten zakres byłby przecież git. Gdyby tak RC wykluczało, to sieć by się obciążała dużo szybciej.
+
+Więc RC dostanie od RC_1 na NetworkTopology, że następnym razem jak będzie do zrobienia połączenie 11,12 to już nie na {11,23}, czy coś //TODO trzeba to jeszcze przemyśleć.
+
+
+
+CC_1 otrzymuje jako res, port, który był dst całego połączenia, więc jedyne co CC_1 musi zrobić to zestawić połączenie u siebie oraz zwrócić do CC ConnectionRequestODP, że gituwa. Oczywiście dopiero jak zestawi u siebie.
+
+#### 7. CC_1 do CC - ConnectionRequestODP(res=OK)
+
+#### 8. CC do NCC - ConnectionRequestODP(res=OK)
+
+#### 9. NCC do CPCC_Ania ConnectionRequestODP(res=OK)
+
+Połączenia w podsieci nie będę omawiał, bo jest identyczne. W tym przypadku jedyne co się zmieniło, to to że finał nadchodzi dużo szybciej.
+
+### 3 Połączenie pomyślnie, między-strefowe
+
+Tu będzie tak, że NCC jak odbierze ConnectionRequest od Ani, i zobaczy, że adresat docelowy jest spoza domeny to zrobi CallCoordination do NCC strefy2. Czyli NCC robi CallCoordinationPYT(Ania, Babacki, 2 sloty).
+
+//TODO W PeerCoordination może lepiej jak będzie przekazywana nie liczba slotów tylko konkretny zakres.
+
+//TODO
+
+### 4 Połączenie nieudane, wewnątrz-strefowe
 
 ## Opis komponentów ASON
 
