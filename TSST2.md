@@ -1,6 +1,6 @@
 # TSST 2
 
-## Wstemp
+## 1 Wstemp
 
 Tu są takie początkowe idee tego wszystkiego. Wysyłam, żeby od razu skrytykować te pomysły zanim zaczniemy w to brnąć. Ogólnie strasznie pogmatwane to jest, ten projekt2, duża dowolność, czasem ASON się kłóci z tymi sieciami telefonicznymi, co AT pokazuje. Też zrobiłem tak sieć, żeby były w niej wszystkie bajery, jak poziomy hierarchii, partitioning (to jest na 100% wymagane), role węzłów i nie wiem czy one wszystkie są wymagane, oraz czy niektóre w połączeniu z pomysłami telekomunistów z lat 80 się nieco wykluczają, dlatego nie ma tu żadnego systemu podanego na wykładzie, a jedynie inspirację. To co tu jest łupane, wydaje mi się na ten moment, że jest do zrobienia, mniej więcej jakoś tam każdy problem mam przemyślany jak to może wyglądać, ale bez konkretów.
 
@@ -14,7 +14,7 @@ Wysyłam taką małą jak na razie porcję, ~~bo więcej nie mam~~ bo:
 - Żebyście się mogli zapoznać z ogólną ideą. Dużo lepiej niż dostać na ryj 15 stron tekstu.
 - Nie ma tu opisanych dokładnych zasad sterowania, temat jest do dyskusji i znowu co trzy głowy to nie jedna.
 
-## No to jazda
+## 2 No to jazda
 
 Opisując taki scenariusz jaki będzie prezentowany na obronie projektu to...
 
@@ -41,7 +41,7 @@ Najpierw klient wybiera ile slotów chce zająć na swoje połączenie oraz adre
 >
 > Ale myślę, że my sobie pominiemy tą szampańską zabawę i klient będzie wpisywał ile szczelin potrzebuje.
 
-## RSA - Routing and Spectrum Allocation
+## 3 RSA - Routing and Spectrum Allocation
 
 Zakres długości fal jaki zajmuje jedno połączenie, nie zmienia się na całej drodze danego połączenia.
 
@@ -57,9 +57,9 @@ I trzeba będzie robić drogę tak, żeby dwa zakresy (np. 7-12) nie najechały 
 
 Np. że RC będą wiedziały przecież od LRM jakie są szczeliny zajęte, i tym info można się jakoś powymieniać z sąsiednimi RC.
 
-## Struktura sieci
+## 4 Struktura sieci
 
-### Czysta struktura sieci
+### 4.1 Czysta struktura sieci
 
 <img src="img/czysta.png" alt="czysta" style="zoom:100%;" />
 
@@ -76,7 +76,7 @@ Co nam wprowadza pierwszy podział węzłów, czyli podział na **płaszczyzny h
 
 My zainspirowani sieciami telefonii stacjonarnej z lat 80/90 ustalamy dwa poziomy hierarchii.
 
-### Podsieci i strefy(domeny)
+### 4.2 Podsieci i strefy(domeny)
 
 <img src="img/podsieci_i_strefy.png" alt="czysta" style="zoom:100%;" />
 
@@ -97,7 +97,7 @@ U nas podsieci są wyróżnione:
   - SN0 - obsługuje ruch tranzytowy (między SN1 i SN2 oraz między strefami A i B)
   - SN3 - obsługuje węzły klienckie operatora strefy B
 
-### Role węzłów
+### 4.3 Role węzłów
 
 <img src="img/role_wezlow.png" alt="czysta" style="zoom:100%;" />
 
@@ -107,7 +107,7 @@ U nas podsieci są wyróżnione:
 >
 > **Węzeł nadrzędny** - obsługuje zbiór węzłów, które pod niego podlegają w sensie poziomu hierarchii. Można być węzłem nadrzędnym dla jednego węzła lub dla całej podsieci. Może być tak, że podsieć ma dwa węzły nadrzędne (posiadanie tylko jednego <=> single point of failure).
 
-### Partitioning
+### 4.4 Partitioning
 
 > **Partitioning** - hierarchiczny podział sieci na podsieci. Wykorzystywany tam, gdzie nie chcemy lub nie możemy widzieć całej podsieci. Korzystam tylko z wiedzy na temat jej portów.
 
@@ -117,7 +117,7 @@ SNy w partitionigu inaczej się przedstawia, ale z uwagi na zdanie wyżej narysu
 
 <img src="img/partitioning.png" alt="czysta" style="zoom:100%;" />
 
-## ASON
+### 4.5 ASON
 
 Na najbardziej globalnej strukturze sieci pokażmy elementy ASON.
 
@@ -129,9 +129,11 @@ W tym przypadku SN1
 
 <img src="img/ason_sn.png" alt="czysta" style="zoom:100%;" />
 
-## Zasady sterowania
+## 5 Zasady sterowania
 
-### Inspiracja nr 1
+### 5.1 Inspiracje 
+
+#### 5.1.1 Inspiracja nr 1
 
 <img src="img/wyklad.png" alt="czysta" style="zoom:100%;" />*Szablon prezentacji* slajd 67/91 - Cele, kryteria i rozwiązania.
 
@@ -177,7 +179,7 @@ Omawiane na wykładzie 8_201204.
 
 
 
-### Inspiracja nr 2
+#### 5.1.2 Inspiracja nr 2
 
 <img src="img/podzial_obciazen.png" alt="czysta" style="zoom:100%;">
 
@@ -197,19 +199,19 @@ Omawiane na wykładzie 8_201204.
 
 
 
-### Nasze zasady
+### 5.2 Nasze zasady
 
 Z inspiracji 1 bierzemy kierowanie ruchu w podsieci (gdzie sieć globalną też traktujemy jako podsieć).
 
 Z inspiracji 2 bierzemy 2 płaszczyzny hierarchii oraz mechanizm podziału obciążeń (wzajemny przelew sam się zaimplementuje, bo w podsieci tranzytowej robimy inspirację 1). Zmieniamy tą rzecz, że nie wszystkie węzły podsieci są połączone z nadrzędnymi, a jedynie węzeł pełniący rolę węzła wyjściowego.
 
-## Scemariusze
+## 6 Scemariusze
 
 Polecam je tak czytać, że najpierw jeden monitor rysunek, drugi monitor opis krokowy, w głowie nieco wiedzy ASON'a i pod każdym krokiem, to co napisałem "quot'em", to takie pierwsze przybliżenie.
 
 
 
-### 1 - Połączenie pomyślnie między-podsieciowe, wewnątrz-strefowe.
+### 6.1 - Połączenie pomyślnie między-podsieciowe, wewnątrz-strefowe.
 
 ![sc_1_global](img/sc_1_global.png)
 
@@ -458,7 +460,7 @@ Po prostu po udanej próbie zestawienia u siebie połączenie wyślę do CC_11 P
 
 
 
-### 2 Połączenie pomyślnie, wewnątrz-podsieciowe.
+### 6.2 Połączenie pomyślnie, wewnątrz-podsieciowe.
 
 Tu trzeba zadbać, żeby RC globalne sprytnie wykorzystywało wiedze o użytym w tej podsieci slotach na łączach.
 
@@ -498,19 +500,219 @@ CC_1 otrzymuje jako res, port, który był dst całego połączenia, więc jedyn
 
 Połączenia w podsieci nie będę omawiał, bo jest identyczne. W tym przypadku jedyne co się zmieniło, to to że finał nadchodzi dużo szybciej.
 
-### 3 Połączenie pomyślnie, między-strefowe
+### 6.3 Połączenie pomyślnie, między-strefowe
 
 Tu będzie tak, że NCC jak odbierze ConnectionRequest od Ani, i zobaczy, że adresat docelowy jest spoza domeny to zrobi CallCoordination do NCC strefy2. Czyli NCC robi CallCoordinationPYT(Ania, Babacki, 2 sloty).
 
 //TODO W PeerCoordination może lepiej jak będzie przekazywana nie liczba slotów tylko konkretny zakres.
 
+#### 6.3.1 Opis - 1 przybliżenie
+
+Jeśli pomijamy jakieś kroki, to znaczy, że to się nie różni od scenariusza 1
+
+- CPCC Ani żąda połączenia do Babackiego z strefy 2
+
+- NCC_s1 wykonuje Directory i okazuje, się że Babacki należy do innej strefy. NCC_s1 pyta NCC_s2 czy git.
+- NCC_s1 zleca CC_s1 ConnectionRequestPYT(id=4, src=11, dst=35, slots=4)
+- CC_s1 zleca CC1 ConnectionRequestPYT(id=4, src=11, dst=35, slots=4)
+- CC1 pyta RC o drogę. RC widzi, że port=35 jest z innej strefy. Więc wyśle RouteTableQueryODP(res=14, dst_u_nas=06, slots={90-93})
+  - skąd RC wie jak kierować do 35? otóż stykiem NetworkTopology
+  - po co to dst_u_nas, żeby CC, którego w końcu dostanie od RC res=dst_u_nas, to znaczy, że to koniec zestawiania połączenia w naszej strefie, CC zarezerwuje wtedy łącze między strefowe, dzięki LRM, będzie wiedziało jaki port jest na drugim końcu łącza, co CC zwróci w PeerCoordinationODP, i wtedy CC_s1 będzie wiedziało, co dać w PeerCooridnationPYT do CC_s2 jako src
+- No i połączenie tu idzie normalnie aż w końcu jakieś CC dostanie od RC res=dst_u_nas, CC zarezerwuje wtedy łącze, dostanie od LRM port, od którego należy zacząć połączenie w strefie 2.
+- To ostatnie CC zwraca w PeerCoordination ten port. Aż wróci on od CC1 do CC_s1 jako ConnectionRequestODP
+- Wtedy CC_s1 robi PeerCoordination do CC_s2
+
+No dobra, dodaliśmy parametr dst_u_nas do RouteTableQueryODP. Co teraz z nim w sytuacji nominalnej? A no to, że w sytuacji nominalnej dst_u_nas jest równe dst (czyli dst całego połączenia), co oznacza, że nie przedłużamy połączenia o kolejną strefę, czyli CC nie rezerwuje łącza, robi tak jak jest normalnie, a jako port_którym_strefa2_się_dołącza_do_połączenia zwraca NULL (i wtedy CC analizując PeerCoordinationODP lub ConnectionRequestODP będą specjalnie się zachowywać, gdy to !=NULL).
+
+
+
+Strefa 2 jak dostaje ConnectionRequest to co robi?
+
+Tu jest sytuacja nominalna, Strefa1 zachowuje się jak zwykły host. Efekt jest ten sam CC dostaje żądanie zestawienia połączenia skąd dokądś. 
+
+### 6.4 Połączenie nieudane, wewnątrz-strefowe
+
+
+
+Tu jak jakiemuś CC w swojej podsieci się nie uda zrobić połączenia, to zwróci w PeerCoordinationODP(res=REFUSED). Wtedy CC, które taką odpowiedź dostało spyta RC o inną drogę (nie wiem jak to miało by wyglądać w protokole, oraz jak RC miało by trackować, które drogi już dało na to połączenie, a które nie, dobra wiem). Ale ogólnie RC zwracając drogi, wie o zasobach itp, więc czemu miało by dać złą ścieżkę, prędzej powie, że się nie da, niż CC ma to zrobić.
+
+### 6.5 Awaria łącza
+
+To było dobrze gdzieś opisane na jakimś wykładzie, ale wydaje mi się, że to tak jakby dokleimy jak będzie czas, najpierw trzeba zrobić nominalne scenariusze. Żebyśmy mieli cokolwiek.
+
 //TODO
 
-### 4 Połączenie nieudane, wewnątrz-strefowe
-
-## Opis komponentów ASON
+## 7 Opis komponentów ASON
 
 SDL, MSC co się da. Tak, żeby po tym można było tylko to czytać i napisać.
 
 Opis styków i protokołów na nich.
 
+### 7.1 Przybliżenie 1 - role
+
+#### 7.1.1 CPCC - Calling Party Call Controller
+
+To jest komponent siedzący na hoście klienta. Klient wypełnia tabelkę z parametrami połączenia (adresy źródłowy i docelowy, potrzebna liczba szczelin/slotów).
+
+CPCC wysyła żądanie połączenia do NCC.
+
+Jest jeszcze Called Party Call Controller, po stronie odbiorcy połączenia.
+
+#### 7.1.2 NCC - Network Part Call Controller
+
+Komponent przyjmujący żądania połączeń od CPCC. Wykonuje on CAC (Call Admission Control). Najpierw wykonuje zapytanie do serwera Policy (czyli czy klient może wykonać połączenie, w sensie czy to nasz klient, czy płaci itp.), potem wykonuje zapytanie do serwera Directory, który zamienia adresy ludzkie na porty, którymi klienci dołączeni są do sieci.
+
+Następnie NCC zleca zestawienie połączenia komponentowi CC.
+
+#### 7.1.3 CC - Connection Controller
+
+Za pomocą komponentów pomocniczych zestawia połączenie. Dowiaduje się o ścieżkę dla danego połączenia, rezerwuje zasoby na łączach, zleca dodanie wpisu do FIB'ów w węzłach.
+
+Wszystkie te akcje wykonuje pośrednio, za pomocą odpowiednio:
+
+- RC
+- LRM
+- CC niższego poziomu lub router
+
+#### 7.1.4 RC - Routing Controller
+
+Wymyśla ścieżkę dla połączenia. CC zwraca się do RC z pytaniem o ścieżkę do danego adresu docelowego, a RC mówi mu, którym portem CC powinno wyjść z podsieci/węzła, którym się opiekuje.
+
+RC musi wiedzieć o topologii sieci, czyli: jakie łącza istnieją, ile mają wolnych szczelin i o jakich zakresach lambd itp. RC to wszystko wie, dzięki współpracy z LRM.
+
+#### 7.1.5 LRM - Link Resource Manager
+
+Opiekuje się zasobami na danym łączu. 
+
+Za jego pomocą CC rezerwuje zasoby na łączu.
+
+On informuje RC o stanie łączy w sieci.
+
+### 7.2 Przybliżenie 2 - role i styki
+
+Ogólnie styki działają tak, że komponent ma styk, na który można się zwrócić. Jeśli jakiś komponent korzysta ze styku innego komponentu, to cała wymiana danych(ODP i PYT), dzieje się w ramach jednego styku. Komponent pytający nie ma specjalnego styku na otrzymywanie odpowiedzi.
+
+#### 7.2.1 CPCC - Calling Party Call Controller
+
+To jest komponent siedzący na hoście klienta. Klient wypełnia tabelkę z parametrami połączenia (adresy źródłowy i docelowy, potrzebna liczba szczelin/slotów).
+
+CPCC wysyła żądanie połączenia do NCC.
+
+**Styki, z których korzysta**:
+
+- **NCC::ConnectionRequest** 
+  CPCC przesyła tam adres źródłowy, adres docelowy oraz liczba potrzebnych szczelin
+
+**Styki, które oferuje:**
+
+- **CPCC::CallAccept**
+  Korzysta z niego NCC, gdy chce spytać czy klient odbiorca, chce przyjąć połączenia //TODO nie wiem czy to wymagane
+
+#### 7.2.2 NCC - Network Part Call Controller
+
+Komponent przyjmujący żądania połączeń od CPCC. Wykonuje on CAC (Call Admission Control). Najpierw wykonuje zapytanie do serwera Policy (czyli czy klient może wykonać połączenie, w sensie czy to nasz klient, czy płaci itp.), potem wykonuje zapytanie do serwera Directory, który zamienia adresy ludzkie na porty, którymi klienci dołączeni są do sieci.
+
+Następnie NCC zleca zestawienie połączenia komponentowi CC.
+
+**Styki, z których korzysta**:
+
+- **CC::ConnectionRequest** 
+  NCC zleca zestawienie połączenia do CC. Wysyła tam id połączenia, adresy źródłowy i docelowy, liczbę potrzebnych szczelin
+- **NCC::CallCoordination**
+  Gdy NCC otrzyma żądanie połączenia, do klienta, który nie należy do jego strefy, zwraca się do NCC tej strefy, żeby on też zrobił Policy.
+  - A Directory? Nie musi już, bo Directory ze sobą rozmawiają i D_s1, wie jaki adres.
+
+**Styki, które oferuje:**
+
+- **NCC::ConnectionRequest**
+  Korzysta z niego CPCC, gdy żąda połączenia.
+- **NCC::CallTeardown**
+  Wysyła CPCC, żeby zakończyć połączenie.
+- **NCC::CallCoordination**
+  Korzysta z niego NCC innej strefy, żeby przedłużyć połączenie do tej strefy.
+
+#### 7.2.3 CC - Connection Controller
+
+Za pomocą komponentów pomocniczych zestawia połączenie. Dowiaduje się o ścieżkę dla danego połączenia, rezerwuje zasoby na łączach, zleca dodanie wpisu do FIB'ów w węzłach lub zestawienie połączenia w węźle swojej podsieci.
+
+Wszystkie te akcje wykonuje pośrednio, za pomocą odpowiednio:
+
+- RC
+- LRM
+- CC niższego poziomu lub router
+
+**Styki, z których korzysta**:
+
+- **CC::ConnectionRequest** 
+  Gdy CC płaszczyzny wyższej zleca zestawienie połączenia CC poziomu niższego. Czyli węzłowi swojej podsieci (który też może być podsiecią).
+  U nas są dwa case'y wykorzystania tego styku:
+
+  - Gdy CC globalne (na strefę) zleca zestawienie połączenia CC pierwszego węzła na trasie połączenia w globalnej podsieci
+  - Gdy CC węzła w podsieci globalnej, zleca zestawienie połączenia CC pierwszego routera na trasie połączenia w swojej podsieci.
+  - Trzeci taki udawany, to gdy CC opiekujące się routerem, zleca zrobienie wpisu do FIB.
+
+- **CC::PeerCoordination**
+  Używane przez węzły hierarchicznie na tym samym poziomie, żeby przedłużyć połączenie, aż do ostatniego węzła podsieci, której zostało zestawienie tego połączenia zlecone.
+
+- **LRM:::LinkConnectionRequest**
+
+  Tym stykiem CC podsieci rezerwuje zasoby na łączach podsieci. Czyli mówi, od teraz sloty{4-10}, na tym  łączy są zajęte, o czym dowiaduje się RC podsieci i już tamtędy takie połączenia nie poprowadzi.
+
+Czyli ConnectionRequest zleca CC wyższe, żeby zestawić połączenie w jakiejś podsieci. A PeerCoordination to kolaboracja węzłów podsieci, w celu zestawienie w niej połączenia.
+
+**Styki, które oferuje:**
+
+- **CC::ConnectionRequest**
+  Na ten styk NCC lub CC wyższego poziomu, może zwrócić się, aby zestawić w tej podsieci połączenie. Zauważ, że NCC to takie CC wyższego poziomu dla całej strefy.
+- **CC::PeerCoordination**
+  Na ten styk, zwraca się CC tego samego poziomu, gdy chce przedłużyć przez nas połączenie. 
+
+#### 7.2.4 RC - Routing Controller
+
+Wymyśla ścieżkę dla połączenia. CC zwraca się do RC z pytaniem o ścieżkę do danego adresu docelowego, a RC mówi mu, którym portem CC powinno wyjść z podsieci/węzła, którym się opiekuje.
+
+RC musi wiedzieć o topologii sieci, czyli: jakie łącza istnieją, ile mają wolnych szczelin i o jakich zakresach lambd itp. RC to wszystko wie, dzięki współpracy z LRM.
+
+**Styki, z których korzysta**:
+
+- **RC::NetworkTopology**
+  Na tym styku odbywa się wymiana informacji routingowych między węzłami tego samego poziomu / tej samej podsieci.
+  Na tym styku między innymi RC strefy dowiaduje się o ścieżce, do adresów spoza swojej strefy.
+  Ale nie wiem jeszcze o co dokładnie można pytać itp.
+
+**Styki, które oferuje:**
+
+- **RC::RouteTableQuery**
+  Z tego styku korzystają CC węzłowe podsieci, którą RC się opiekuje. RC zwraca następny węzeł, przez który dany węzeł musi przedłużyć połączenie.
+- **RC::LocalTopology**
+  Na ten styk LRM łączy należących do podsieci, którą RC się opiekuje przekazują informację o topologii sieci. Czyli jakie łącza są dostępne, ile jest na nich dostępnych szczelin/slotów i jakie to są zakresy itp.
+- **RC::NetworkTopology**
+  Na tym styku odbywa się wymiana informacji routingowych między węzłami tego samego poziomu / tej samej podsieci.
+  Na tym styku między innymi RC strefy dowiaduje się o ścieżce, do adresów spoza swojej strefy.
+
+#### 7.2.5 LRM - Link Resource Manager
+
+Opiekuje się zasobami na danym łączu. 
+
+Za jego pomocą CC rezerwuje zasoby na łączu.
+
+On informuje RC o stanie łączy w sieci.
+
+**Styki, z których korzysta**:
+
+- **RC::LocalTopology**
+  Każde łącze ma RC swojej podsieci. I do niego mówi o stanie łącza itp.
+
+**Styki, które oferuje:**
+
+- **LRM::LinkConnectionRequest**
+
+  Tutaj może zwrócić się CC w celu rezerwacji zasobów na łączu. CC podsieci może rezerwować tylko łącza swojej podsieci, o co z tym chodzi?
+
+  <img src="img/LRM.png" alt="LRM" style="zoom:50%;" />LRM, mimo, że należą do jednego routera, to do innych podsieci.
+
+  
+
+### 7.3 Przybliżenie 3 - Protokoły na stykach i struktury danych
+
+//TODO
