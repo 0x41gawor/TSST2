@@ -715,4 +715,133 @@ On informuje RC o stanie łączy w sieci.
 
 ### 7.3 Przybliżenie 3 - Protokoły na stykach i struktury danych
 
+Styki działają tak, że komponent się zwraca na jakiś styk do jakiegoś komponentu i potem na tym styku dostaje odpowiedź.
+
+Dlatego rozróżniamy w protokole PYT i ODP. 
+
+*Mieszanie polskiego i angielskiego mmmmmmm, zmienimy to potem jak wleci fajny pomysł.
+
+Typy parametrów:
+
+|  Nazwa   |                             Opis                             |
+| :------: | :----------------------------------------------------------: |
+|   port   |                         numer portu                          |
+|   name   |                        nazwa klienta                         |
+|    sl    |                        liczba slotów                         |
+|  slots   |                   konkretny zakres slotów                    |
+|   res    | typ wyliczeniowy: "OK" lub "REFUSED"<br />można potem dodać kody do REFUSED<br />Używane w wiadomościach typu ODP<br />"res" od "response" |
+|    id    |                        id połączenia                         |
+| allocate | W LRM::LinkConnectionRequest<br />Służy do odróżnienia czy zasoby zająć czy zwolnić<br />Może być boolean czy enum |
+
+
+
+#### 7.3.1 CPCC - Calling Party Call Controller
+
+**CPCC::CallAccept**
+
+Korzysta z niego NCC, gdy chce spytać czy klient odbiorca, chce przyjąć połączenia
+
+- **CallAcceptPYT(srcName, sl)**
+  - **srcName**: name - nazwa klienta, który chce się z hostem połączyć
+  - **sl**: sl - liczba slotów wymaganych do realizacji połączenia
+- **CallAcceptODP(res)**
+  - res: res - odpowiedź hosta
+
+#### 7.3.2 NCC - Network Party Call Controller
+
+**NCC::ConnectionRequest**
+Korzysta z niego CPCC, gdy żąda połączenia.
+
+- **ConnectionRequestPYT(srcName, dstName, sl)**
+  - **srcName**: name - nazwa klienta, który żąda połączenia
+  - **dstName**: name - nazwa klienta, z którym srcName chce się połączyć
+  - **sl**: sl - liczba slotów jaką srcName potrzebuje, aby zapewniona była odpowiednia dla niego przepustowość
+- **ConnectionRequestODP(res, id)**
+  - **res**: res - odpowiedź sieci, na to czy klient może zrealizować połączenia. Możemy dać 20% szansy, że Ania nie płaci rachunków
+  - **id**: id - id jakie NCC nadało żądnemu połączeniu
+
+**NCC::CallTeardown**
+Wysyła CPCC, żeby zakończyć połączenie.
+
+- **CallTeardownPYT(id)**
+  - **id**: id - id połączenia, które ma zostać przerwane
+- **CallTeardownODP**(res)
+  - res: res - odpowiedź OK, gdy sieć zakończy połączenie
+
+**NCC::CallCoordination**
+Korzysta z niego NCC innej strefy, żeby przedłużyć połączenie do tej strefy.
+
+- **CallCoordinationPYT(srcName, dstName, sl)**
+  - takie same jak w NCC::ConnectionRequestPYT
+- **CallCoordinationODP(res)**
+  - res: res - OK, gdy pozwalamy Ani się połączyć z Babackim, REFUSED gdy nie.
+
+#### 7.3.3 CC - Connection Controller
+
+**CC::ConnectionRequest**
+Na ten styk NCC lub CC wyższego poziomu, może zwrócić się, aby zestawić w tej podsieci połączenie. Zauważ, że NCC to takie CC wyższego poziomu dla całej strefy.
+
+- **ConnectionRequestPYT(id, src, dst, sl)**
+  - **id**: id - id połączenia
+  - **src**: port - port, od którego połączenie w danej podsieci się zaczyna. Gdy wysyła NCC - port, którym podłączony jest srcName
+  - **dst**: port - port, na którym połączenie w danej podsieci  się kończy. Gdy wysyła NCC - port, którym podłączony jest dstName
+  - **sl**: sl - liczba slotów wymagana do zapewnienia przepustowości połączenia jaką klient wymaga
+- **ConnectionRequestODP(res)**
+  - **res**: res - Jeśli udało się zestawić połączenie, to OK, jeśli nie to REFUSED.
+
+**CC::PeerCoordination**
+Na ten styk, zwraca się CC tego samego poziomu, gdy chce przedłużyć przez nas połączenie. 
+
+- **PeerCoordinationPYT(id, src, dst, slots)**
+  - **id**: id - id połączenia
+  - **src**: port - adres źródłowy połączenia w podsieci
+  - **dst**: port - adres docelowy połączenia w podsieci
+  - **slots**: slots - zakres slotów jakie zostały zarezerwowane dla tego połączenia
+- **PeerCoordinationODP(res)**
+  - **res**: res - OK gdy się udało przedłużyć połączenie przez węzeł, REFUSED gdy się nie udało.
+
+#### 7.3.4 RC - Routing Controller
+
+**RC::RouteTableQuery**
+Z tego styku korzystają CC węzłowe podsieci, którą RC się opiekuje. RC zwraca następny węzeł, przez który dany węzeł musi przedłużyć połączenie.
+
+- **RouteTableQueryPYT(id, src, dst, sl || slots)**
+  - **id**: id - id połączenia, żeby RC dawał dla tego samego połączenia, cały czas te same sloty
+  - **src**: port - port, który pyta RC o drogę
+  - **dst**: port - port do którego src, chce się dostać
+  - **sl || slots**: sl || slots - RC musi jakoś odróżniać czy dostał typ sl, czy slots. Gdy sl to musi wymyśleć slots, gdy slots, to musi oddać to co dostał.
+- **RouteTableQueryODP(gateway, slots)**
+  - **gateway**: port - port którym połączenie musi wyjść z węzła (rozpoznawanego po src), który pytał. Ten port wskazuje na następne łącze w ścieżce.
+  - **slots**: slots - zakres slotów jaki CC węzła musi zarezerwować na łączu, które dostało w odpowiedzi.
+
+**RC::LocalTopology**
+Na ten styk LRM łączy należących do podsieci, którą RC się opiekuje przekazują informację o topologii sieci. Czyli jakie łącza są dostępne, ile jest na nich dostępnych szczelin/slotów i jakie to są zakresy itp.
+
+//TODO pamiętaj o tym jakie łącza do której podsieci tak naprawdę należą.
+
+**RC::NetworkTopology**
+
+Na tym styku odbywa się wymiana informacji routingowych między węzłami tego samego poziomu / tej samej podsieci.
+Na tym styku między innymi RC strefy dowiaduje się o ścieżce, do adresów spoza swojej strefy.
+
 //TODO
+
+#### 7.3.5 LRM - Link Resource Manager
+
+**LRM::LinkConnectionRequest**
+
+Tutaj może zwrócić się CC w celu rezerwacji zasobów na łączu.
+
+- **LinkConnectionRequestPYT(slots, allocate)**
+
+  - **slots**: slots - sloty jakie na łączu trzeba zarezerwować.
+
+    Każdy LRM przypisany jest do jednego łącza, więc nie trzeba precyzować łącza. Id połączenia też nie jest potrzebne, LRM ma tylko trzymać info o dostępnych slotach, jego nie obchodzi co przez niego leci.
+
+  - allocate: allocate - zmienna, który rozróżni czy zasoby trzeba zająć (TRUE) czy zwolnić (FALSE)
+
+- **LinkConnectionRequestODP(end)**
+
+  - **end**: port - port, który jest na drugim końcu przed chwilą zarezerwowanego łącza. Dzięki niemu CC wie do kogo zrobić PeerCoordination.
+    - //HINT czyli CC ma strukturę, która to odzwierciedla.
+
