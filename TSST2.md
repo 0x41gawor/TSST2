@@ -500,7 +500,7 @@ CC_1 otrzymuje jako res, port, który był dst całego połączenia, więc jedyn
 
 Połączenia w podsieci nie będę omawiał, bo jest identyczne. W tym przypadku jedyne co się zmieniło, to to że finał nadchodzi dużo szybciej.
 
-### 6.3 Połączenie pomyślnie, między-strefowe
+### 6.3 Połączenie pomyślne, między-strefowe
 
 Tu będzie tak, że NCC jak odbierze ConnectionRequest od Ani, i zobaczy, że adresat docelowy jest spoza domeny to zrobi CallCoordination do NCC strefy2. Czyli NCC robi CallCoordinationPYT(Ania, Babacki, 2 sloty).
 
@@ -541,6 +541,10 @@ Tu jak jakiemuś CC w swojej podsieci się nie uda zrobić połączenia, to zwr�
 To było dobrze gdzieś opisane na jakimś wykładzie, ale wydaje mi się, że to tak jakby dokleimy jak będzie czas, najpierw trzeba zrobić nominalne scenariusze. Żebyśmy mieli cokolwiek.
 
 //TODO
+
+### 6.6 Call Teardown!!!
+
+
 
 ## 7 Opis komponentów ASON
 
@@ -723,15 +727,16 @@ Dlatego rozróżniamy w protokole PYT i ODP.
 
 Typy parametrów:
 
-|  Nazwa   |                             Opis                             |
-| :------: | :----------------------------------------------------------: |
-|   port   |                         numer portu                          |
-|   name   |                        nazwa klienta                         |
-|    sl    |                        liczba slotów                         |
-|  slots   |                   konkretny zakres slotów                    |
-|   res    | typ wyliczeniowy: "OK" lub "REFUSED"<br />można potem dodać kody do REFUSED<br />Używane w wiadomościach typu ODP<br />"res" od "response" |
-|    id    |                        id połączenia                         |
-| allocate | W LRM::LinkConnectionRequest<br />Służy do odróżnienia czy zasoby zająć czy zwolnić<br />Może być boolean czy enum |
+|     Nazwa      |                             Opis                             |
+| :------------: | :----------------------------------------------------------: |
+|      port      |                         numer portu                          |
+|      name      |                        nazwa klienta                         |
+|       sl       |                        liczba slotów                         |
+|     slots      |                   konkretny zakres slotów                    |
+|      res       | typ wyliczeniowy: "OK" lub "REFUSED"<br />można potem dodać kody do REFUSED<br />Używane w wiadomościach typu ODP<br />"res" od "response" |
+|       id       |                        id połączenia                         |
+|    allocate    | W LRM::LinkConnectionRequest<br />Służy do odróżnienia czy zasoby zająć czy zwolnić<br />Może być boolean albo enum |
+| ArrayOf<Slots> |               Tablica parametrów typu 'slots'                |
 
 
 
@@ -757,7 +762,7 @@ Korzysta z niego CPCC, gdy żąda połączenia.
   - **dstName**: name - nazwa klienta, z którym srcName chce się połączyć
   - **sl**: sl - liczba slotów jaką srcName potrzebuje, aby zapewniona była odpowiednia dla niego przepustowość
 - **ConnectionRequestODP(res, id)**
-  - **res**: res - odpowiedź sieci, na to czy klient może zrealizować połączenia. Możemy dać 20% szansy, że Ania nie płaci rachunków
+  - **res**: res - odpowiedź sieci, na to czy klient może zrealizować połączenia. Możemy dać 20% szansy, że Ania nie płaci rachunków. NCC też odpowie nie, gdy nie ma klienta o podanym dstName. `res` przyjmuje wartości: "Ania nie płaci rachunków", "Adres docelowy nieznany".
   - **id**: id - id jakie NCC nadało żądnemu połączeniu
 
 **NCC::CallTeardown**
@@ -776,6 +781,13 @@ Korzysta z niego NCC innej strefy, żeby przedłużyć połączenie do tej stref
 - **CallCoordinationODP(res)**
   - res: res - OK, gdy pozwalamy Ani się połączyć z Babackim, REFUSED gdy nie.
 
+**Struktury danych**
+
+- Serwer Directory ma słownik, mapujący `dstName: name` na `dst: port`,. Jeśli dla podanego przez klienta `dstName` nie znajdzie odwzorowania, NCC odrzuci połączenie. Directory też wie, czy dstName jest spoza domeny, i wie z której.
+- Tablica wszystkich połączeń [id, srcName, src, dstName, dst] //TODO ale po co mu to?
+- Adres styku ConnectionRequest CC strefy.
+- Adresy styków CallCoordination NCC innych stref.
+
 #### 7.3.3 CC - Connection Controller
 
 **CC::ConnectionRequest**
@@ -787,7 +799,7 @@ Na ten styk NCC lub CC wyższego poziomu, może zwrócić się, aby zestawić w 
   - **dst**: port - port, na którym połączenie w danej podsieci  się kończy. Gdy wysyła NCC - port, którym podłączony jest dstName
   - **sl**: sl - liczba slotów wymagana do zapewnienia przepustowości połączenia jaką klient wymaga
 - **ConnectionRequestODP(res)**
-  - **res**: res - Jeśli udało się zestawić połączenie, to OK, jeśli nie to REFUSED.
+  - **res**: res - jeśli udało się zestawić połączenie, to OK, jeśli nie to REFUSED.
 
 **CC::PeerCoordination**
 Na ten styk, zwraca się CC tego samego poziomu, gdy chce przedłużyć przez nas połączenie. 
@@ -797,10 +809,22 @@ Na ten styk, zwraca się CC tego samego poziomu, gdy chce przedłużyć przez na
   - **src**: port - adres źródłowy połączenia w podsieci
   - **dst**: port - adres docelowy połączenia w podsieci
   - **slots**: slots - zakres slotów jakie zostały zarezerwowane dla tego połączenia
-- **PeerCoordinationODP(res)**
+- **PeerCoordinationODP(res, nextZonePort)**
   - **res**: res - OK gdy się udało przedłużyć połączenie przez węzeł, REFUSED gdy się nie udało.
+  - **nextZonePort**: port - port z następnej strefy, który będzie src portem dla połączenia w tamtej domenie. Port z następnej strefy, którym następna strefa się dołącza do połączenia zestawionego w tej strefie. Jeśli połączenie jest wewnątrz strefowe tu zapisywany jest NULL.
 
-#### 7.3.4 RC - Routing Controller
+**Struktury danych**
+
+CC jak dostanie ConnectionRequest to musi wiedzieć po src, do którego CC węzłowego swojej podsieci się zwrócić.
+
+- Dict mapujący `src` na adresy styków ConnectionRequest należących do CC węzłowych swojej podsieci
+
+- Typ CC. Czy jest to CC strefowe, czy jest to CC węzłowe w sieci strefowej, które ma pod sobą podsieć, czy jest to CC przyczepione do routera.
+- Dict, dzięki któremu CC po dostaniu odpowiedzi od LRM::LinkConnectionRequest, wie do którego CC się zwrócić jako następnego.
+
+//TODO Zone to chyba średnia nazwa, w kodzie Domain będzie lepsze hmm?
+
+#### 07.3.4 RC - Routing Controller
 
 **RC::RouteTableQuery**
 Z tego styku korzystają CC węzłowe podsieci, którą RC się opiekuje. RC zwraca następny węzeł, przez który dany węzeł musi przedłużyć połączenie.
@@ -809,22 +833,44 @@ Z tego styku korzystają CC węzłowe podsieci, którą RC się opiekuje. RC zwr
   - **id**: id - id połączenia, żeby RC dawał dla tego samego połączenia, cały czas te same sloty
   - **src**: port - port, który pyta RC o drogę
   - **dst**: port - port do którego src, chce się dostać
-  - **sl || slots**: sl || slots - RC musi jakoś odróżniać czy dostał typ sl, czy slots. Gdy sl to musi wymyśleć slots, gdy slots, to musi oddać to co dostał.
-- **RouteTableQueryODP(gateway, slots)**
+  - **sl || slots**: sl || slots - RC musi jakoś odróżniać czy dostał typ sl, czy slots. Gdy sl to musi wymyśleć slots (chyba, że już jest dla tego połączenia), gdy slots, to musi oddać to co dostał.
+- **RouteTableQueryODP(id, gateway, slots, dstZone)**
+  - **id**: id - id połączenia, dla którego wygenerowano odpowiedź
   - **gateway**: port - port którym połączenie musi wyjść z węzła (rozpoznawanego po src), który pytał. Ten port wskazuje na następne łącze w ścieżce.
   - **slots**: slots - zakres slotów jaki CC węzła musi zarezerwować na łączu, które dostało w odpowiedzi.
+  - **dstZone**: port - ostatni port należący do strefy przez, który idzie połączenie do innej strefy. Jeśli połączenie nie jest międzystrefowe, to dstZone będzie takie samo jako dst połączenia
 
 **RC::LocalTopology**
-Na ten styk LRM łączy należących do podsieci, którą RC się opiekuje przekazują informację o topologii sieci. Czyli jakie łącza są dostępne, ile jest na nich dostępnych szczelin/slotów i jakie to są zakresy itp.
+Na ten styk LRM łączy należących do podsieci, którą RC się opiekuje przekazują informację o topologii sieci. Czyli jakie łącza są dostępne, ile jest na nich dostępnych szczelin/slotów i jakie to są zakresy itp. LRM wysyła LocalTopology, gdy: obudzi się do życia, zajmie lub zwolni zasoby na łączu.
 
-//TODO pamiętaj o tym jakie łącza do której podsieci tak naprawdę należą.
+Łącze to relacja między dwoma portami.
+
+- **LocalTopologyPYT(port1, port2, slotsArray)**
+  - **port1**: port - port po stronie routera, na którym siedzi LRM
+  - **port2**: port - port po drugiej stronie łącza
+  - **slotsArray**: ArrayOf<slots> - lista zajętych już zakresów slotów na łączu
+- **LocalTopologyODP(res)**
+  - res: res - Potwierdzenie przyjęcia wiadomości.
 
 **RC::NetworkTopology**
 
 Na tym styku odbywa się wymiana informacji routingowych między węzłami tego samego poziomu / tej samej podsieci.
 Na tym styku między innymi RC strefy dowiaduje się o ścieżce, do adresów spoza swojej strefy.
 
-//TODO
+​	//TODO
+
+**Struktury danych**
+
+- Tablica wszystkich linków w podsieci, którą RC się opiekuje. Żeby RC wiedział jakie ścieżko może dawać
+  - Link to obiekt [port1: port, port2: port, slotsArray: ArrayOf<slots>]
+- Połączenia w podsieci i jakie mają slots. Żeby RC wiedział jakie dał już slots dla danego połączenia.
+  - Connection to obiekt [id, src, dst, slots, dstZone]
+- Tablica kierowania połączeń
+  - Jej kolumny to |src | des | gateway|
+    - src: port  - port, który pyta o drogę
+    - des: port - port docelowy połączenia, jakie w tej sieci należy zestawić
+    - gateway: port - odpowiedź
+  - Czyli jakiś węzeł, który dostał połączenie na src, na podstawie dst pyta się RC, którym portem ma wypuścić to połączenie. I potem węzeł w swojej podsieci zestawi połączenie pomiędzy src i gateway.
 
 #### 7.3.5 LRM - Link Resource Manager
 
@@ -844,4 +890,16 @@ Tutaj może zwrócić się CC w celu rezerwacji zasobów na łączu.
 
   - **end**: port - port, który jest na drugim końcu przed chwilą zarezerwowanego łącza. Dzięki niemu CC wie do kogo zrobić PeerCoordination.
     - //HINT czyli CC ma strukturę, która to odzwierciedla.
+
+**Struktury danych**
+
+- port1: port
+- port2: port
+
+- slotsArray: ArrayOf<slots>
+- adres styku LocalTopology RC podsieci, do której LRM należy
+
+### 7.4 Przybliżenie 4 - diagram SDL
+
+### 7.5 Opis całościowy
 
