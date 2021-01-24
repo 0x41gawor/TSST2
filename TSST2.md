@@ -544,6 +544,10 @@ To było dobrze gdzieś opisane na jakimś wykładzie, ale wydaje mi się, że t
 
 ### 6.6 Call Teardown!!!
 
+CPCC wysyła do NCC call teardown
+
+NCC wysyła to do CC strefowego. Jutro się wymyśli, chodzi tylko o to, żeby zniknąć wpis w FIB dla połączenia od ID FIB oraz zwolnić zasoby na łączach.
+
 
 
 ## 7 Opis komponentów ASON
@@ -798,8 +802,9 @@ Na ten styk NCC lub CC wyższego poziomu, może zwrócić się, aby zestawić w 
   - **src**: port - port, od którego połączenie w danej podsieci się zaczyna. Gdy wysyła NCC - port, którym podłączony jest srcName
   - **dst**: port - port, na którym połączenie w danej podsieci  się kończy. Gdy wysyła NCC - port, którym podłączony jest dstName
   - **sl**: sl - liczba slotów wymagana do zapewnienia przepustowości połączenia jaką klient wymaga
-- **ConnectionRequestODP(res)**
+- **ConnectionRequestODP(res, nextZonePort, slots)**
   - **res**: res - jeśli udało się zestawić połączenie, to OK, jeśli nie to REFUSED.
+  - **slots**: slots - sloty na których realizowane jest połączenie, żeby CC drugiej strefy wiedział czego używać
 
 **CC::PeerCoordination**
 Na ten styk, zwraca się CC tego samego poziomu, gdy chce przedłużyć przez nas połączenie. 
@@ -895,11 +900,70 @@ Tutaj może zwrócić się CC w celu rezerwacji zasobów na łączu.
 
 - port1: port
 - port2: port
-
 - slotsArray: ArrayOf<slots>
 - adres styku LocalTopology RC podsieci, do której LRM należy
 
-### 7.4 Przybliżenie 4 - diagram SDL
+### 7.4 Przybliżenie 4 - workflow słownie
 
-### 7.5 Opis całościowy
+Każdy z programów reprezentujących komponent ASON oferują jakieś styki na których nasłuchuje. Kiedy pojawi się event, że ktoś się zwróci na styk, to program odpala jakiś zestaw instrukcji i ponownie nasłuchuje. 
+
+Przykładowo NCC ma 3 listenery. Kiedy pojawi się event połączenia na dany listener, klient dostanie swój socket do wymiany danych, NCC wykona jakieś akcje, i po wysłaniu ODP NCC zamknie socket kliencki i wróci do stanu nasłuchiwania.
+
+Tak więc opis workflow w tym rozdziale, to co się stanie gdy dany program dostanie PYT na dany styk.
+
+Używam tutaj nazw z tabelki z rozdziału 7.3.
+
+### 7.4.1 CPCC - Calling Party Call Controller
+
+**CallAcceptPYT(dstName) from NCC**
+
+Wyświetli się komunikat czy przyjąć połączenie od Babackiego. User kliknie Tak lub Nie, co będzie skutkowało CallAccept(res), gdzie res = OK lub REFUSED.
+
+#### 7.4.2 NCC - Network Party Call Controller
+
+**ConnectionRequestPYT(srcName, dstName, sl) from CPCC**
+
+Najpierw NCC wykona Policy, możemy to zasymulować tak, że jest 20% szansy na to, że NCC odeśle ConnectionRequestODP(res = AUTH PROBLEM), bo klient nie płaci rachunków. Jeśli płaci to idziemy dalej. NCC robi odwołanie do serwera Directory (który jest wewnątrz programu), który zagląda do tabeli, gdzie ma zapisane odzwierciedlenie name klientów na porty, którymi dołączeni są oni do sieci. Directory również informuje czy dst jest spoza strefy/domeny. Jeśli nie można znaleźć klienta o danym name, to NCC odsyła ConnectionRequestODP(res = NO CLIENT). Jeśli klient jest, to  już wyszliśmy z procesu CAC - Call Admission Control (Policy + Directory). Teraz faza Connection Control.
+
+NCC tworzy połączenie(od siebie to nadaje mu id tylko). 
+
+Jeśli Directory nam powiedziało, że dstName jest spoza strefy, to wysyłamy CallCoordinationPYT(srcName, dstName, sl) do NCC_s2, czekamy na CallCoordinationODP(res). Jeśli res=OK, to idziemy dalej, jeśli REFUSED, to wysyłamy ConnectionRequestODP(res=REFUSED BY RECEIVER) do CPCC.
+
+Zlecamy ConnectionRequestPYT(id, src, dst, sl) do CC strefy. Czekamy na ConnectionRequestODP(res, nextZonePort, slots). Jeśli res=OK, to wysyłamy do klienta ConnectionRequestODP(res=OK, id=id). Jeśli res=REFUSED, to wysyłamy do CPCC ConnectionRequestODP(res=NETWORK PROBLEM).
+
+**CallCoordinationPYT(srcName, dstName, sl) from NCC_s1 **
+
+Ktoś chce do nas przedłużyć połączenie, my musimy tylko odpowiedzieć czy się zgadzamy. NCC wykonuje tylko CAC i odsyła odpowiedź.
+
+NCC wykonuje Policy, symulujemy, że 20% szansy na to, że NCC odeśle CallCoordinationODP(res = AUTH PROBLEM), bo nie ma umowy między klientami strefy czy coś. NCC robi odwołanie do Directory, który zagląda do tabeli i patrzy czy jest wpis dla klienta o danym dstName, jeśli nie to odsyłamy CallCoordinationODP(res=NO CLIENT). Jeśli klient jest to wysyłamy CallCoordinationODP(res=OK).
+
+
+
+//TODO Ogólnie do NCC po Policy i Directory możemy dodać, że NCC wysyła CallAcceptPYT(srcName), do dstName (czyli kolejna struktura danych w NCC, odwzorowanie name'ów klientów na adresy ich styków CallAccept w CPCC). Ale to takie bajer, który można zaimplementować bez problemy już na końcu, więc jak będzie wszystko dopięte, to cykenes to.
+
+**CallTeardownPYT(id) from CPCC**
+
+Klient czy to jeden, czy drugi może chcieć przerwać połączenie. Na razie przygotujmy się na taką możliwość, implementacja tego, będzie zależała od tego jak będą wyglądały struktury danych trzymające info o połączeniach. 
+
+Na pewno:
+
+- Klient zna id połączenia, bo dostaje je w ConnectionRequestODP. 
+- Id jest globalne i niepowtarzalne w czasie działania emulatora, chyba, że nam ktoś integera przekroczy.
+- Na pewno NCC w połączeniu między strefowym musi przedłużyć CallTeardown.
+- NCC zleca CC CallTeardown i będzie działało to podobnie jak zestawianie połączenia.
+- W CallTeardown chodzi tylko, o to, żeby usunąć wpisy z FIB (//TODO czyli FIB musi wiedzieć, dla którego połączenia jest dany wpis) oraz wyczyścić wpisy o istnieniu danego połączenia tam gdzie one są.
+
+### 7.5 Przybliżenie 5 - diagram SDL
+
+### 7.5.1 CPCC - Calling Party Call Controller
+
+Nie chciało mi się dla tak krótkiego.
+
+### 7.5.2 NCC - Network Party Call Controller
+
+plik: SDL/NCC.html
+
+### 7.6 Opis całościowy
+
+Nwm czy to będzie poczebne.
 
