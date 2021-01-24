@@ -929,7 +929,6 @@ Różnice z projektem 1 (oprócz dodanie tych modułów)
 
 - MS wywalamy
 - CC pozostaje chyba bez zmian (oprócz plików config)
-- NN zmiana forwardingu z MPLS na EON
 
 ### 7.4.1 CPCC - Calling Party Call Controller
 
@@ -1031,7 +1030,7 @@ Tutaj różnica jest tylko taka, że gdy zlecamy połączenie niżej, to dodajem
 | ------- | ----- | -------- |
 | src     | slots | gateway  |
 
-#### 7.4.3.2 Połączenie wewnątrz-strefowe, wewnątrz-podsieciowe
+#### 7.4.3.2 Połączenie wewnątrz-strefowe, między podsieciowe
 
 Tutaj będzie tak, że pierwszy CC podsieci dostanie od RC taką odpowiedź gdzie gateway == dst połączenia.
 
@@ -1090,8 +1089,6 @@ plik: SDL/NCC.html
 #### 7.5.3 CC - Connection Controller
 
 pliki: SDL/CC_strefy.html
-
-​		SDL/CC.html
 
 ### 7.6 Opis całościowy
 
