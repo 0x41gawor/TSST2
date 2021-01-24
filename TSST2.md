@@ -913,6 +913,23 @@ Tak więc opis workflow w tym rozdziale, to co się stanie gdy dany program dost
 
 Używam tutaj nazw z tabelki z rozdziału 7.3.
 
+Programy do napisania:
+
+- NCC 
+- CC strefy
+- CC podsieci (ewentualnie można napisać jeden program i w configu dać TYPE)
+
+Moduły do dodanie do istniejących programów:
+
+- CC do routera
+- LRM do routera
+- CPCC do hosta
+
+Różnice z projektem 1 (oprócz dodanie tych modułów)
+
+- MS wywalamy
+- CC pozostaje chyba bez zmian (oprócz plików config)
+
 ### 7.4.1 CPCC - Calling Party Call Controller
 
 **CallAcceptPYT(dstName) from NCC**
@@ -953,6 +970,112 @@ Na pewno:
 - NCC zleca CC CallTeardown i będzie działało to podobnie jak zestawianie połączenia.
 - W CallTeardown chodzi tylko, o to, żeby usunąć wpisy z FIB (//TODO czyli FIB musi wiedzieć, dla którego połączenia jest dany wpis) oraz wyczyścić wpisy o istnieniu danego połączenia tam gdzie one są.
 
+### 7.4.3 CC - Connection Controller
+
+Ogólnie to ze względu na zachowanie, należy podzielić CC na 3 rodzaje
+
+- CC strefy - globalne na całą strefę do niego zwraca się NCC z ConnectionRequest lub CC innej strefy z PeerCoordination.
+- CC węzłowe strefy - opiekuje się podsiecią, która w sieci strefowej jest widziana jako węzeł
+- CC przyczepione do routera, opiekuje się węzłem w podsieci, która jest węzłem w sieci strefowej. Różni się ono głównie tym, że zlecają połączenie niżej dodaje wpis do FIB, a nie robi ConnectionRequest do CC niższej warstwy.
+
+Też należy rozróżnić 3 scenariusze, w których CC różnie się zachowują. //O kurde i to tak chyba wyszło, że tylko CC się różnie zachowują w różnych typach połączenia, więc gituwa.
+
+- połączenie wewnątrz-strefowe, między-podsieciowe
+- połączenie wewnątrz-strefowe, w jednej podsieci
+- połączenie między-strefowe
+
+#### 7.4.3.1 Połączenie wewnątrz-strefowe, między podsieciowe
+
+##### CC strefy
+
+Dostaje ConnectionRequest od NCC. Ma tablice, która po src połączenia powie mu do którego CC węzłowego się zwrócić.
+
+Wysyła ConnectionRequestPYT(id, src, dst, sl) (czyli takie samo jako dostało od NCC) do CC węzłowego strefy.
+
+I czeka na ConnectionRequestODP(res, nextZonePort, slots) od niego.
+
+Jeśli res == OK, to zwraca OK do NCC, resztę parametrów w tym scenariuszu ignoruje.
+
+##### **CC węzłowy strefy**
+
+Dostaje ConnectionRequest od CC_s1. Te same parametry pakuje w RouteTableQueryPYT(id, src, dst, sl) i dostaje odpowiedź od RC. Zauważ, że to jest pierwszy moment, gdy RC dostaje dla tego połączenie RouteTableQuery, więc teraz wymyśla sloty.
+
+Lub dostaje PeerCoordination od CC tej samej podsieci. Też wykonuje RouteTableQueryPYT(id, src, dst, sl).
+
+RC odsyła RouteTableQuery(id, gateway, slots, dstZone).
+
+- Dzięki gateway, CC wie na którym łączu ma przedłużyć połączenie oraz jaki jest port wyjściowy z jego podsieci, więc wie jak zlecić zestawianie połączenia niżej.
+- Dzięki slots, CC wie jakie sloty zarezerwować na łączu.
+- dstZone w przypadku połączenie wewnątrz-strefowe jest taki sam jak dst połączenia i nie istotny tu.
+
+Jeśli gateway == dst, to nasza podsieć/węzeł jest ostatni na drodze połączenia. Wtedy nie rezerwujemy już zasobów na łączu. Zlecamy tylko wykokanie połączenia niżej i odsyłamy PeerCoordinationODP(res=OK) lub ConnectionRequestODP(res=OK).
+
+Zlecamy połączenie niżej, czyli poznajemy po src do którego CC naszej podsieci się zwrócić i robimy do niego ConnectionRequestPYT(id, src, gateway, sl).
+
+CC zaczyna czekać na ConnectionRequestODP(res). Gdy dostaniemy res=OK, to lecimy dalej.
+
+//W ConnectionRequestPYT wysyłamy sl, ale RC ma już wybrane slots dla danego połączenia.
+
+Teraz CC poznaje po gateway (ma tablice port wyjściowy z węzła -> który LRM ma to łącze), do którego LRM zwróci się z LinkConnectionRequestPYT(slots=slots, allocate=TRUE). Dostanie LinkConnectionRequestODP(end), gdzie end po end, będzie wiedział (ma tablice, która port kolegi -> adres CC::PeerCoordination kolegi), do którego CC się zwrócić z PeerCoordination.
+
+Teraz CC robi PeerCoordinationPYT(id, gateway, dst, slots) do odpowiedniego CC.
+
+CC zaczyna czekać na PeerCoordinationODP(res). Jeśli jest ona OK, to analizujemy, czy u nas się udało zestawić połączenie czyli res z ConnectionRequestODP(res), jeśli obie są OK, wysyłamy PeerCoordiantionODP(res=OK) lub ConnectionRequestODP(res=OK). W innych przypadkach, gdy chociaż jedna jest REFUSED, my też pakujemy do res REFUSED.
+
+##### **CC routera**
+
+Tutaj różnica jest tylko taka, że gdy zlecamy połączenie niżej, to dodajemy wpis do FIB zamiast wysyłać ConnectionRequest. Czyli dodajemy do FIB wpis
+
+| port_in | slots | port_out |
+| ------- | ----- | -------- |
+| src     | slots | gateway  |
+
+#### 7.4.3.2 Połączenie wewnątrz-strefowe, między podsieciowe
+
+Tutaj będzie tak, że pierwszy CC podsieci dostanie od RC taką odpowiedź gdzie gateway == dst połączenia.
+
+#### 7.4.3.3. Połączenie między-strefowe
+
+##### CC strefy
+
+Dostaje ConnectionRequest od NCC. Ma tablice, która po src połączenia powie mu do którego CC węzłowego się zwrócić.
+
+Wysyła ConnectionRequestPYT(id, src, dst, sl) (czyli takie samo jako dostało od NCC) do CC węzłowego strefy.
+
+I czeka na ConnectionRequestODP(res, nextZonePort, slots) od niego.
+
+Jeśli res == OK, to robi PeerCoordinationPYT(id=id, src=nextZonePort, dst=dst, slots=slots). do CC_s2
+
+Czek na PeerCoordinationODP od CC_s2 i jak res = OK, to ConnectionRequest do NCC że git
+
+##### **CC węzłowy strefy**
+
+Dostaje ConnectionRequest od CC_s1. Te same parametry pakuje w RouteTableQueryPYT(id, src, dst, sl) i dostaje odpowiedź od RC. Zauważ, że to jest pierwszy moment, gdy RC dostaje dla tego połączenie RouteTableQuery, więc teraz wymyśla sloty.
+
+Lub dostaje PeerCoordination od CC tej samej podsieci. Też wykonuje RouteTableQueryPYT(id, src, dst, sl).
+
+RC odsyła RouteTableQuery(id, gateway, slots, dstZone).
+
+- Dzięki gateway, CC wie na którym łączu ma przedłużyć połączenie oraz jaki jest port wyjściowy z jego podsieci, więc wie jak zlecić zestawianie połączenia niżej.
+- Dzięki slots, CC wie jakie sloty zarezerwować na łączu.
+- dstZone w przypadku połączenie wewnątrz-strefowe jest taki sam jak dst połączenia i nie istotny tu.
+
+Jeśli gateway == dstZone && dstZone != dst, to nasza podsieć/węzeł jest ostatni na drodze połączenia w naszej strefie.
+
+Zlecamy połączenie niżej, czyli poznajemy po src do którego CC naszej podsieci się zwrócić i robimy do niego ConnectionRequestPYT(id, src, gateway, sl).
+
+CC zaczyna czekać na ConnectionRequestODP(res). Gdy dostaniemy res=OK, to lecimy dalej.
+
+Teraz CC poznaje po gateway (ma tablice port wyjściowy z węzła -> który LRM ma to łącze), do którego LRM zwróci się z LinkConnectionRequestPYT(slots=slots, allocate=TRUE). Dostanie LinkConnectionRequestODP(end), gdzie end po end, będzie wiedział (ma tablice, która port kolegi -> adres CC::PeerCoordination kolegi), do którego CC się zwrócić z PeerCoordination.
+
+end, które dostaliśmy nie należy już do naszej strefy. Więc to koniec zestawiania w naszej strefie.
+
+Robimy PeerCoordination(res=OK, nextZonePort=end) lub ConnectionRequestODP(res=OK, nextZonePort=end, slots=slots).
+
+##### **CC routera**
+
+Tu się nic nie zmienia, bo CC routera nie rezerwuje łączy poza podsiecią, co za tym idzie międzystrefowych również. 
+
 ### 7.5 Przybliżenie 5 - diagram SDL
 
 ### 7.5.1 CPCC - Calling Party Call Controller
@@ -962,6 +1085,10 @@ Nie chciało mi się dla tak krótkiego.
 ### 7.5.2 NCC - Network Party Call Controller
 
 plik: SDL/NCC.html
+
+#### 7.5.3 CC - Connection Controller
+
+pliki: SDL/CC_strefy.html
 
 ### 7.6 Opis całościowy
 
