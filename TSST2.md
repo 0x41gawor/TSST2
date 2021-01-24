@@ -834,11 +834,11 @@ CC jak dostanie ConnectionRequest to musi wiedzieć po src, do którego CC węz�
 **RC::RouteTableQuery**
 Z tego styku korzystają CC węzłowe podsieci, którą RC się opiekuje. RC zwraca następny węzeł, przez który dany węzeł musi przedłużyć połączenie.
 
-- **RouteTableQueryPYT(id, src, dst, sl || slots)**
+- **RouteTableQueryPYT(id, src, dst, sl)**
   - **id**: id - id połączenia, żeby RC dawał dla tego samego połączenia, cały czas te same sloty
   - **src**: port - port, który pyta RC o drogę
   - **dst**: port - port do którego src, chce się dostać
-  - **sl || slots**: sl || slots - RC musi jakoś odróżniać czy dostał typ sl, czy slots. Gdy sl to musi wymyśleć slots (chyba, że już jest dla tego połączenia), gdy slots, to musi oddać to co dostał.
+  - **sl**: sl - liczba slotów dla połączenia na jej podstawie RC wymyśla slots.
 - **RouteTableQueryODP(id, gateway, slots, dstZone)**
   - **id**: id - id połączenia, dla którego wygenerowano odpowiedź
   - **gateway**: port - port którym połączenie musi wyjść z węzła (rozpoznawanego po src), który pytał. Ten port wskazuje na następne łącze w ścieżce.
@@ -891,9 +891,10 @@ Tutaj może zwrócić się CC w celu rezerwacji zasobów na łączu.
 
   - allocate: allocate - zmienna, który rozróżni czy zasoby trzeba zająć (TRUE) czy zwolnić (FALSE)
 
-- **LinkConnectionRequestODP(end)**
+- **LinkConnectionRequestODP(res,end)**
 
   - **end**: port - port, który jest na drugim końcu przed chwilą zarezerwowanego łącza. Dzięki niemu CC wie do kogo zrobić PeerCoordination.
+  - **res**: res - OK jeśli się udało REFUSED jeśli nie
     - //HINT czyli CC ma strukturę, która to odzwierciedla.
 
 **Struktury danych**
@@ -902,6 +903,7 @@ Tutaj może zwrócić się CC w celu rezerwacji zasobów na łączu.
 - port2: port
 - slotsArray: ArrayOf<slots>
 - adres styku LocalTopology RC podsieci, do której LRM należy
+- adres styku LRM po drugiej stronie
 
 ### 7.4 Przybliżenie 4 - workflow słownie
 
@@ -984,6 +986,12 @@ Też należy rozróżnić 3 scenariusze, w których CC różnie się zachowują.
 - połączenie wewnątrz-strefowe, między-podsieciowe
 - połączenie wewnątrz-strefowe, w jednej podsieci
 - połączenie między-strefowe
+
+**ACHTUNG**
+
+CC musi reagować jak dostanie gateway od RC jako NULL, to znaczy, że nie ma trasy wolnej. Wtedy niech odpowie z res=REFUSED
+
+CC czasem może dostać dstZone nie jedna liczbę a dwie, więc musi sprawdzać wszystkie. Bo jest parę punktów wyjściowych ze strefy.
 
 #### 7.4.3.1 Połączenie wewnątrz-strefowe, między podsieciowe
 
@@ -1076,6 +1084,18 @@ Robimy PeerCoordination(res=OK, nextZonePort=end) lub ConnectionRequestODP(res=O
 ##### **CC routera**
 
 Tu się nic nie zmienia, bo CC routera nie rezerwuje łączy poza podsiecią, co za tym idzie międzystrefowych również. 
+
+### 7.4.4 RC - Routing Controller
+
+W plikach SDL jest dość mocny opis. Już mi się nie chce znowu.
+
+Z uwag to powiem, że styk NetworkTopology póki co nie ma zastosowania. Nie będziemy się bawić w BGP miedzy strefami tylko se to wpiszemy w configa.
+
+Może RC poziom niżej będą mówiły coś co pomoże na taki problem, że:
+
+RC zleci zestawienie połączenie w węźle miedzy jego portami np. 12 i 13 na slots={5-10}. I teraz RC boi się dla nowego połączenia dać znowu przez ten węzeł {5-10}, ale możliwe że nie potrzebnie.
+
+//TODO pa wyżej
 
 ### 7.5 Przybliżenie 5 - diagram SDL
 
