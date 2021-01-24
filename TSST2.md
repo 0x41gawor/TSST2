@@ -883,13 +883,21 @@ Na tym styku między innymi RC strefy dowiaduje się o ścieżce, do adresów sp
 
 Tutaj może zwrócić się CC w celu rezerwacji zasobów na łączu.
 
-- **LinkConnectionRequestPYT(slots, allocate)**
+Tu też zwraca się inny LRM, żeby poinformować, że dostał prośbę rezerwacji zasobów na tym łączu.
+
+
+
+!!! Nieważne, nie czytaj jak nie chcesz: Drugi LRM też musi wiedzieć, bo co jak on dostanie od CC request'a, i zarezerwuje slots, mimo, że są one już zarezerwowane. Sytuacja mało prawdopodobna, bo RC nie zleciałby połączenie przez to łącze, bo wie od pierwszego LRM, że jest zajęte, ale się zabezpieczymy i dla zgodności danych w obu LRM dotyczących tego samego łącza też.
+
+- **LinkConnectionRequestPYT(slots, allocate, who)**
 
   - **slots**: slots - sloty jakie na łączu trzeba zarezerwować.
 
     Każdy LRM przypisany jest do jednego łącza, więc nie trzeba precyzować łącza. Id połączenia też nie jest potrzebne, LRM ma tylko trzymać info o dostępnych slotach, jego nie obchodzi co przez niego leci.
 
-  - allocate: allocate - zmienna, który rozróżni czy zasoby trzeba zająć (TRUE) czy zwolnić (FALSE)
+  - **allocate**: allocate - zmienna, który rozróżni czy zasoby trzeba zająć (TRUE) czy zwolnić (FALSE)
+
+  - **who**: LRM może odróżnić czy zleca CC czy inny LRM
 
 - **LinkConnectionRequestODP(res,end)**
 
@@ -903,7 +911,7 @@ Tutaj może zwrócić się CC w celu rezerwacji zasobów na łączu.
 - port2: port
 - slotsArray: ArrayOf<slots>
 - adres styku LocalTopology RC podsieci, do której LRM należy
-- adres styku LRM po drugiej stronie
+- adres styku LinkConnectionRequest LRM po drugiej stronie
 
 ### 7.4 Przybliżenie 4 - workflow słownie
 
@@ -992,6 +1000,8 @@ Też należy rozróżnić 3 scenariusze, w których CC różnie się zachowują.
 CC musi reagować jak dostanie gateway od RC jako NULL, to znaczy, że nie ma trasy wolnej. Wtedy niech odpowie z res=REFUSED
 
 CC czasem może dostać dstZone nie jedna liczbę a dwie, więc musi sprawdzać wszystkie. Bo jest parę punktów wyjściowych ze strefy.
+
+CC musi wypełnieć parametr who przy LinkConnectionRequest.
 
 #### 7.4.3.1 Połączenie wewnątrz-strefowe, między podsieciowe
 
@@ -1097,6 +1107,20 @@ RC zleci zestawienie połączenie w węźle miedzy jego portami np. 12 i 13 na s
 
 //TODO pa wyżej
 
+### 7.4.5 LRM - Link Resource Manager
+
+**LinkConnectionRequestPYT(slots, allocate, who)**
+
+Na podstawie who LRM poznaje czy to prawdziwa alokacja zasobów (who=CC), czy tylko poinformowanie, że LRM po drugiej stronie łącza dokonał alokacji (who=LRM).
+
+Tak czy inaczej LRM dokonuje alokacji lub dealokacji (na podstawie zmiennej allocate). //TODO isAllocate powinno być bo to boolean będzie.
+
+Jeśli to pierwsza alokacja na tym łączu, czyli who=CC: 
+
+- To informujemy RC -> LocalTopology(port1, port2, slotsArray).
+
+- No i przedłużamy do drugiego LRM.
+
 ### 7.5 Przybliżenie 5 - diagram SDL
 
 ### 7.5.1 CPCC - Calling Party Call Controller
@@ -1112,6 +1136,14 @@ plik: SDL/NCC.html
 pliki: SDL/CC_strefy.html
 
 ​		SDL/CC.html
+
+#### 7.5.4 RC - Routing Controller
+
+plik: SDL/RC.html
+
+### 7.5.5. LRM - Link Resource Manager
+
+plik: SDL/LRM.html
 
 ### 7.6 Opis całościowy
 
