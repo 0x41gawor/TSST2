@@ -929,7 +929,7 @@ Programy do napisania:
 - CC strefy
 - CC podsieci (ewentualnie można napisać jeden program i w configu dać TYPE)
 
-Moduły do dodanie do istniejących programów:
+Moduły do dodania do istniejących programów:
 
 - CC do routera
 - LRM do routera
@@ -943,9 +943,9 @@ Różnice z projektem 1 (oprócz dodanie tych modułów)
 
 ### 7.4.1 CPCC - Calling Party Call Controller
 
-**CallAcceptPYT(dstName) from NCC**
+**CallAcceptPYT(srcName) from NCC**
 
-Wyświetli się komunikat czy przyjąć połączenie od Babackiego. User kliknie Tak lub Nie, co będzie skutkowało CallAccept(res), gdzie res = OK lub REFUSED.
+Wyświetli się komunikat czy przyjąć połączenie od srcName. User kliknie Tak lub Nie, co będzie skutkowało CallAccept(res), gdzie res = OK lub REFUSED.
 
 #### 7.4.2 NCC - Network Party Call Controller
 
@@ -997,7 +997,7 @@ Też należy rozróżnić 3 scenariusze, w których CC różnie się zachowują.
 
 **ACHTUNG**
 
-CC musi reagować jak dostanie gateway od RC jako NULL, to znaczy, że nie ma trasy wolnej. Wtedy niech odpowie z res=REFUSED
+CC musi reagować jak dostanie gateway od RC jako NULL, to znaczy, że nie ma trasy wolnej. Wtedy niech odpowie z res=REFUSED.
 
 CC czasem może dostać dstZone nie jedna liczbę a dwie, więc musi sprawdzać wszystkie. Bo jest parę punktów wyjściowych ze strefy.
 
@@ -1149,3 +1149,56 @@ plik: SDL/LRM.html
 
 Nwm czy to będzie poczebne.
 
+## 8 Prezentacja
+
+## 8.1 Prezentowana sieć
+
+### 8.1.1 Nazewnictwo portów i routerów
+
+![porty](img/porty.png)
+
+#### 8.1.1.1 Nazewnictwo podsieci
+
+SN1 i SN2 to podsieci klienckie należące to strefy s1
+
+SN0 to podsieci tranzytowa należąca do strefy s1
+
+SN3 to podsieć kliencka należąca do strefy s2
+
+#### 8.1.1.2 Nazewnictwo routerów
+
+Nazwa routera rozpoczyna się od litery z alfabetu łacińskiego "R". Jak odejmiemy od "Router", "outer" czyli jakaś zewnętrzna niepotrzebna nam otoczka słowa, to zostanie nam "R". Korzystamy tutaj z zalecenia wymyślania ksywek zestandaryzowanego przez Pudziana.
+
+Drugi znak nazwy routera mówi nam, do której podsieci należy router.
+
+Trzeci znak mówi o numerze routera w podsieci. Tutaj przyjmujemy konwencję, że router pełniący rolę węzła wyjściowego ma nr 1. Lecimy clockwise z numerami.
+
+> Przykład R12.
+>
+> Ten router należy do podsieci SN1 i ma w niej numer 2, czyli jest pierwszy na prawo od routera wyjściowego.
+
+#### 8.1.1.3 Nazewnictwo portów
+
+Nazwa portu składa się z 3 liczb.
+
+Pierwsze dwie to numer routera. 
+
+Trzecia numer portu w routerze. Tutaj konwencja istnieje tylko dla routera wyjściowego. Jego porty wychodzące do węzłów nadrzędnych podsieci mają numery 1 i 2. Od nich numerujemy clockwise.
+
+> Przykład 213
+>
+> Port należy do R21, czyli jest w SN2, należy do routera o numerze 1 i jest trzecim portem z kolei w tym routerze. 
+>
+> Można jeszcze o nim powiedzieć, że jest na prawo od portu 2, czyli wyjściowego portu z podsieci, bo router R21 jest węzłem wyjściowym z SN2.
+
+#### 8.1.1.3 Nazewnictwo portów hostów dla CableCloud
+
+Każdy host ma odpowiadający mu port po stronie sieci.
+
+Więc może by dodawać jakąś cyferkę na koniec.
+
+>Przykład 1319
+>
+>Host o takim porcie jest połączony z siecią portem 131.
+>
+>A 9 na końcu nam mówi od razu, że jest to port należący do klienta a nie naszej sieci.
