@@ -28,3 +28,7 @@ Jak je wypełnić można znaleźć w pliku `Tablice Routingu dla RC.md`
 
 
 
+Routery strefowe muszą znać nawzajem swoje porty stków NetworkTopology
+
+Tak samo RC podsieciowe każdy musi znać 3 pozostałe.
+
