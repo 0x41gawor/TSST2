@@ -289,7 +289,7 @@ Gdzie:
 >
 > Styk RouteTableQuery komponentu RC_SN1
 
-### CPCC
+## CPCC
 
 Numer portu dla CPCC w ogólności wygląda tak:
 
@@ -303,7 +303,7 @@ Gdzie:
 >
 > Styk CallAccept komponentu CPCC_2219 (Janek)
 
-### LRM
+## LRM
 
 Numer portu dla LRM w ogólności wygląda tak:
 
