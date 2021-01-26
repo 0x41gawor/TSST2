@@ -1,0 +1,1 @@
+Uwaga, w CableCloud.xml zmieniłem `<connection>` na `<link>`.

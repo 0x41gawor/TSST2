@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+
+    <cable_cloud_address>127.0.0.1</cable_cloud_address>
+    <cable_cloud_port>3001</cable_cloud_port>
+
+    <links>
+        <!--Clients to SN1-->
+        <link>141,1419</link>
+        <link>131,1319</link>
+        <!--Clients to SN2-->
+        <link>221,2219</link>
+        <link>231,2319</link>
+         <!--Clients to SN3-->
+        <link>333,3339</link>
+        <link>335,3359</link>
+        <link>321,3219</link>
+        <link>322,3229</link>
+        <link>323,3239</link>
+
+        <!--SN0-->
+        <link>014,033</link>
+        <link>013,024</link>
+        <link>034,023</link>
+         <!--SN1-->
+        <link>142,115</link>
+        <link>143,122</link>
+        <link>144,132</link>
+        <link>133,114</link>
+        <link>134,121</link>
+        <link>123,113</link>
+         <!--SN2-->
+        <link>232,214</link>
+        <link>213,223</link>
+        <link>233,222</link>
+        <!--SN3-->
+        <link>334,324</link>
+
+        <!--SN1 to SN0-->
+        <link>111,011</link>
+        <link>112,032</link>
+        <!--SN2 to SN0-->
+        <link>211,031</link>
+        <link>212,022</link>
+        <!--SN3 to SN0-->
+        <link>312,012</link>
+        <link>311,021</link>
+        
+    </links>
+
+</configuration>
