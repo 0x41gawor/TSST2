@@ -12,7 +12,7 @@
         <row>
             <src>02x</src>
             <dst>1xx</dst>
-            <gateway>024 || 023</gateway>
+            <gateway>024,023</gateway>
         </row>
 
         <row>
@@ -24,7 +24,7 @@
         <row>
             <src>01x</src>
             <dst>2xx</dst>
-            <gateway>013 || 014</gateway>
+            <gateway>013,014</gateway>
         </row>
 
         <row>
@@ -54,7 +54,7 @@
         <row>
             <src>03x</src>
             <dst>3xx</dst>
-            <gateway>033 || 034</gateway>
+            <gateway>033,034</gateway>
         </row>
     </route_table>
 

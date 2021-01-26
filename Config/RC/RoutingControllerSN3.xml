@@ -66,7 +66,7 @@
         <row>
             <src>31x</src>
             <dst>xxx</dst>
-            <gateway>311 || 312</gateway>
+            <gateway>311,312</gateway>
         </row>
 
         <row>

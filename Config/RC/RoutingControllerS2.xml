@@ -36,7 +36,7 @@
         <row>
             <src>3xx</src>
             <dst>xxx</dst>
-            <gateway>312 || 311</gateway>
+            <gateway>312,311</gateway>
     </route_table>
 
 </configuration>

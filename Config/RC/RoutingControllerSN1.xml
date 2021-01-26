@@ -54,7 +54,7 @@
         <row>
             <src>11x</src>
             <dst>xxx</dst>
-            <gateway>111 || 112</gateway>
+            <gateway>111,112</gateway>
         </row>
 
         <row>

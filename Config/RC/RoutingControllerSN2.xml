@@ -42,7 +42,7 @@
         <row>
             <src>21x</src>
             <dst>xxx</dst>
-            <gateway>211 || 212</gateway>
+            <gateway>211,212</gateway>
         </row>
 
         <row>
