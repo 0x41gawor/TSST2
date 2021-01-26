@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="eec5c916-c340-42b2-a0f2-af60768702e8" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="XML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Config/LRM/lrm_111.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager321.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager322.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager323.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager111.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager112.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager113.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager114.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager115.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager121.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager122.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager123.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager132.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager133.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager134.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager142.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager143.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager144.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager141.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager131.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager011.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager012.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager013.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager014.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager021.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager022.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager023.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager024.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager031.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager032.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager033.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager034.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager211.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager212.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager213.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager214.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager221.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager222.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager223.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager231.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager232.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager233.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager311.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager312.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager313.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager314.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager315.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager324.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1nc6s9XrVBmUvBVgMUaHGMVoqFo" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eec5c916-c340-42b2-a0f2-af60768702e8" name="Default Changelist" comment="" />
+      <created>1611677238586</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1611677238586</updated>
+      <workItem from="1611677246960" duration="4256000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="null" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2369" y="244" width="637" height="801" key="find.popup" timestamp="1611680749463">
+      <screen x="1920" y="233" width="1536" height="832" />
+    </state>
+    <state x="2369" y="244" width="637" height="801" key="find.popup/1920.233.1536.832/0.0.1920.1040@1920.233.1536.832" timestamp="1611680749463" />
+  </component>
+</project>

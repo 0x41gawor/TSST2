@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+
+    <local_port>314</local_port>
+    <remote_port>324</remote_port>
+    <rc_local_topology_local_port>43822</rc_local_topology_local_port>
+    <lrm_link_connection_request_local_port>45324</lrm_link_connection_request_local_port>
+    <server_address>127.0.0.1</server_address>
+
+</configuration>

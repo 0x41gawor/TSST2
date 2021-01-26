@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+
+    <local_port>233</local_port>
+    <remote_port>222</remote_port>
+    <rc_local_topology_local_port>43922</rc_local_topology_local_port>
+    <lrm_link_connection_request_local_port>45222</lrm_link_connection_request_local_port>
+    <server_address>127.0.0.1</server_address>
+
+</configuration>
