@@ -11,4 +11,3 @@
 ## Co trzeba wczytać z konfiguracji
 
 Wszystko oprócz slotsArray.
-
