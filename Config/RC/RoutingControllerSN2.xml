@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+
+    <route_table>
+        <row>
+            <src>21x</src>
+            <dst>221</dst>
+            <gateway>213</gateway>
+        </row>
+
+        <row>
+            <src>22x</src>
+            <dst>221</dst>
+            <gateway>221</gateway>
+        </row>
+
+        <row>
+            <src>23x</src>
+            <dst>221</dst>
+            <gateway>233</gateway>
+        </row>
+
+        <row>
+            <src>21x</src>
+            <dst>231</dst>
+            <gateway>214</gateway>
+        </row>
+
+        <row>
+            <src>22x</src>
+            <dst>231</dst>
+            <gateway>222</gateway>
+        </row>
+
+        <row>
+            <src>23x</src>
+            <dst>231</dst>
+            <gateway>231</gateway>
+        </row>
+
+        <row>
+            <src>21x</src>
+            <dst>xxx</dst>
+            <gateway>211 || 212</gateway>
+        </row>
+
+        <row>
+            <src>22x</src>
+            <dst>xxx</dst>
+            <gateway>223</gateway>
+        </row>
+
+        <row>
+            <src>23x</src>
+            <dst>xxx</dst>
+            <gateway>232</gateway>
+        </row>
+    </route_table>
+
+</configuration>

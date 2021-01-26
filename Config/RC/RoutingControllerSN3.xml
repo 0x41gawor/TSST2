@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+
+    <route_table>
+        <row>
+            <src>31x</src>
+            <dst>321</dst>
+            <gateway>314</gateway>
+        </row>
+
+        <row>
+            <src>32x</src>
+            <dst>321</dst>
+            <gateway>321</gateway>
+        </row>
+
+        <row>
+            <src>31x</src>
+            <dst>322</dst>
+            <gateway>314</gateway>
+        </row>
+
+        <row>
+            <src>32x</src>
+            <dst>322</dst>
+            <gateway>322</gateway>
+        </row>
+
+        <row>
+            <src>31x</src>
+            <dst>323</dst>
+            <gateway>314</gateway>
+        </row>
+
+        <row>
+            <src>32x</src>
+            <dst>323</dst>
+            <gateway>323</gateway>
+        </row>
+
+        <row>
+            <src>31x</src>
+            <dst>313</dst>
+            <gateway>313</gateway>
+        </row>
+
+        <row>
+            <src>32x</src>
+            <dst>313</dst>
+            <gateway>324</gateway>
+        </row>
+
+        <row>
+            <src>31x</src>
+            <dst>315</dst>
+            <gateway>315</gateway>
+        </row>
+
+        <row>
+            <src>32x</src>
+            <dst>315</dst>
+            <gateway>324</gateway>
+        </row>
+
+        <row>
+            <src>31x</src>
+            <dst>xxx</dst>
+            <gateway>311 || 312</gateway>
+        </row>
+
+        <row>
+            <src>32x</src>
+            <dst>xxx</dst>
+            <gateway>324</gateway>
+        </row>
+    </route_table>
+
+</configuration>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+
+    <route_table>
+        <row>
+            <src>01x</src>
+            <dst>1xx</dst>
+            <gateway>011</gateway>
+        </row>
+
+        <row>
+            <src>02x</src>
+            <dst>1xx</dst>
+            <gateway>024 || 023</gateway>
+        </row>
+
+        <row>
+            <src>03x</src>
+            <dst>1xx</dst>
+            <gateway>032</gateway>
+        </row>
+
+        <row>
+            <src>01x</src>
+            <dst>2xx</dst>
+            <gateway>013 || 014</gateway>
+        </row>
+
+        <row>
+            <src>02x</src>
+            <dst>2xx</dst>
+            <gateway>022</gateway>
+        </row>
+
+        <row>
+            <src>03x</src>
+            <dst>2xx</dst>
+            <gateway>031</gateway>
+        </row>
+
+        <row>
+            <src>01x</src>
+            <dst>3xx</dst>
+            <gateway>012</gateway>
+        </row>
+
+        <row>
+            <src>02x</src>
+            <dst>3xx</dst>
+            <gateway>021</gateway>
+        </row>
+
+        <row>
+            <src>03x</src>
+            <dst>3xx</dst>
+            <gateway>033 || 034</gateway>
+        </row>
+    </route_table>
+
+</configuration>

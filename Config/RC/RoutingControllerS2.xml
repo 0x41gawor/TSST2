@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+
+    <route_table>
+        <row>
+            <src>3xx</src>
+            <dst>313</dst>
+            <gateway>313</gateway>
+        </row>
+
+        <row>
+            <src>3xx</src>
+            <dst>321</dst>
+            <gateway>321</gateway>
+        </row>
+
+        <row>
+            <src>3xx</src>
+            <dst>322</dst>
+            <gateway>322</gateway>
+        </row>
+
+        <row>
+            <src>3xx</src>
+            <dst>323</dst>
+            <gateway>323</gateway>
+        </row>
+
+        <row>
+            <src>3xx</src>
+            <dst>335</dst>
+            <gateway>335</gateway>
+        </row>
+
+        <row>
+            <src>3xx</src>
+            <dst>xxx</dst>
+            <gateway>312 || 311</gateway>
+    </route_table>
+
+</configuration>

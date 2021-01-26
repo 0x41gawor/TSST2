@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+
+    <route_table>
+        <row>
+            <src>11x</src>
+            <dst>141</dst>
+            <gateway>115</gateway>
+        </row>
+
+        <row>
+            <src>12x</src>
+            <dst>141</dst>
+            <gateway>122</gateway>
+        </row>
+
+        <row>
+            <src>13x</src>
+            <dst>141</dst>
+            <gateway>132</gateway>
+        </row>
+
+        <row>
+            <src>14x</src>
+            <dst>141</dst>
+            <gateway>141</gateway>
+        </row>
+
+        <row>
+            <src>11x</src>
+            <dst>131</dst>
+            <gateway>114</gateway>
+        </row>
+        
+        <row>
+            <src>12x</src>
+            <dst>131</dst>
+            <gateway>121</gateway>
+        </row>
+        
+        <row>
+            <src>13x</src>
+            <dst>131</dst>
+            <gateway>131</gateway>
+        </row>
+        
+        <row>
+            <src>14x</src>
+            <dst>131</dst>
+            <gateway>144</gateway>
+        </row>
+
+        <row>
+            <src>11x</src>
+            <dst>xxx</dst>
+            <gateway>111 || 112</gateway>
+        </row>
+
+        <row>
+            <src>12x</src>
+            <dst>xxx</dst>
+            <gateway>123</gateway>
+        </row>
+
+        <row>
+            <src>13x</src>
+            <dst>xxx</dst>
+            <gateway>133</gateway>
+        </row>
+
+        <row>
+            <src>14x</src>
+            <dst>xxx</dst>
+            <gateway>142</gateway>
+        </row>
+    </route_table>
+
+</configuration>

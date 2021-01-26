@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+
+    <route_table>
+        <row>
+            <src>1xx</src>
+            <dst>141</dst>
+            <gateway>141</gateway>
+        </row>
+
+        <row>
+            <src>1xx</src>
+            <dst>131</dst>
+            <gateway>131</gateway>
+        </row>
+
+        <row>
+            <src>1xx</src>
+            <dst>xxx</dst>
+            <gateway>111 || 112</gateway>
+        </row>
+
+        <row>
+            <src>2xx</src>
+            <dst>221</dst>
+            <gateway>221</gateway>
+        </row>
+
+        <row>
+            <src>2xx</src>
+            <dst>231</dst>
+            <gateway>231</gateway>
+        </row>
+
+        <row>
+            <src>2xx</src>
+            <dst>xxx</dst>
+            <gateway>211 || 212</gateway>
+        </row>
+
+        <row>
+            <src>0xx</src>
+            <dst>1xx</dst>
+            <gateway>011 || 032</gateway>
+        </row>
+
+        <row>
+            <src>0xx</src>
+            <dst>2xx</dst>
+            <gateway>031 || 022</gateway>
+        </row>
+
+        <row>
+            <src>0xx</src>
+            <dst>3xx</dst>
+            <gateway>012 || 021</gateway>
+        </row>
+    </route_table>
+
+</configuration>
