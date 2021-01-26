@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="eec5c916-c340-42b2-a0f2-af60768702e8" name="Default Changelist" comment="" />
+    <list default="true" id="eec5c916-c340-42b2-a0f2-af60768702e8" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TSST2.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TSST2.dir/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,9 +23,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Config/LRM/lrm_111.xml" />
-        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager321.xml" />
-        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager322.xml" />
-        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager323.xml" />
         <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager111.xml" />
         <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager112.xml" />
         <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager113.xml" />
@@ -64,10 +63,14 @@
         <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager233.xml" />
         <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager311.xml" />
         <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager312.xml" />
-        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager313.xml" />
         <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager314.xml" />
-        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager315.xml" />
         <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager324.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager313.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager315.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager321.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager322.xml" />
+        <option value="$PROJECT_DIR$/Config/LRM/LinkResourceManager323.xml" />
+        <option value="$PROJECT_DIR$/.gitignore.txt" />
       </list>
     </option>
   </component>
@@ -82,6 +85,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -92,7 +96,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1611677238586</updated>
-      <workItem from="1611677246960" duration="4256000" />
+      <workItem from="1611677246960" duration="5294000" />
     </task>
     <servers />
   </component>
