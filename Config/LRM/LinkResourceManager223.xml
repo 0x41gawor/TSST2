@@ -5,7 +5,8 @@
     <local_port>223</local_port>
     <remote_port>213</remote_port>
     <rc_local_topology_local_port>43922</rc_local_topology_local_port>
-    <lrm_link_connection_request_local_port>45213</lrm_link_connection_request_local_port>
+    <lrm_link_connection_request_local_port>45223</lrm_link_connection_request_local_port>
+    <lrm_link_connection_request_remote_port>45213</lrm_link_connection_request_remote_port>
     <server_address>127.0.0.1</server_address>
 
 </configuration>

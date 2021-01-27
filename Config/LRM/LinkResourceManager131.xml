@@ -5,7 +5,8 @@
     <local_port>131</local_port>
     <remote_port>1319</remote_port>
     <rc_local_topology_local_port>43912</rc_local_topology_local_port>
-    <lrm_link_connection_request_local_port>0</lrm_link_connection_request_local_port>
+    <lrm_link_connection_request_local_port>45131</lrm_link_connection_request_local_port>
+    <lrm_link_connection_request_remote_port>0</lrm_link_connection_request_remote_port>
     <server_address>127.0.0.1</server_address>
 
 </configuration>
