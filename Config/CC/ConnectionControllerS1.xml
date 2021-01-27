@@ -37,6 +37,6 @@
              <cc_name>CC_SN2</cc_name>
             <connection_request_local_port>42921</connection_request_local_port>
         </element>
-    </connection_request_local_port_ByPort>
+    </connection_request_local_port_by_cc_name>
 
 </configuration>
