@@ -36,19 +36,19 @@
         
         <element>
             <cc_name>CC_R11</cc_name>
-            <cc_connection_request_local_port>42111</cc_connection_request_local_port>
+            <cc_connection_request_local_port>12111</cc_connection_request_local_port>
         </element>
         <element>
             <cc_name>CC_R12</cc_name>
-            <cc_connection_request_local_port>42121</cc_connection_request_local_port>
+            <cc_connection_request_local_port>12121</cc_connection_request_local_port>
         </element>
         <element>
             <cc_name>CC_R13</cc_name>
-            <cc_connection_request_local_port>42131</cc_connection_request_local_port>
+            <cc_connection_request_local_port>12131</cc_connection_request_local_port>
         </element>
         <element>
             <cc_name>CC_R14</cc_name>
-            <cc_connection_request_local_port>42141</cc_connection_request_local_port>
+            <cc_connection_request_local_port>12141</cc_connection_request_local_port>
         </element>
         
     </cc_connection_request_local_port_by_cc_name>
@@ -58,7 +58,7 @@
         
         <element>
             <cc_name>CC_SN0</cc_name>
-            <cc_peer_coordination_local_port>42902</cc_peer_coordination_local_port>
+            <cc_peer_coordination_local_port>12902</cc_peer_coordination_local_port>
         </element>
         
     </cc_peer_coordination_local_port_by_cc_name>

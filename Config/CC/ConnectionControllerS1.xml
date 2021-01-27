@@ -4,11 +4,11 @@
     <!--Type of Connection Controller-->
     <cc_type>domain</cc_type>
     <!--Local port of own ConnectionRequest listener-->
-    <cc_connection_request_listener_local_port>42811</cc_connection_request_listener_local_port>
+    <cc_connection_request_listener_local_port>12811</cc_connection_request_listener_local_port>
     <!--Local port of own PeerCoordination listener-->
-    <cc_connection_request_listener_local_port>42812</cc_connection_request_listener_local_port>
+    <cc_connection_request_listener_local_port>12812</cc_connection_request_listener_local_port>
     <!--Remote port of second domain CC PeerCoordination listener-->
-    <cc_peer_coordination_remote_port>43822</cc_peer_coordination_remote_port>
+    <cc_peer_coordination_remote_port>13822</cc_peer_coordination_remote_port>
     <!--Localhost ip-->
     <server_address>127.0.0.1</server_address>
 
@@ -35,15 +35,15 @@
         
         <element>
              <cc_name>CC_SN0</cc_name>
-            <connection_request_local_port>42901</connection_request_local_port>
+            <connection_request_local_port>12901</connection_request_local_port>
         </element>
         <element>
              <cc_name>CC_SN1</cc_name>
-            <connection_request_local_port>42911</connection_request_local_port>
+            <connection_request_local_port>12911</connection_request_local_port>
         </element>
         <element>
              <cc_name>CC_SN2</cc_name>
-            <connection_request_local_port>42921</connection_request_local_port>
+            <connection_request_local_port>12921</connection_request_local_port>
         </element>
         
     </connection_request_local_port_by_cc_name>

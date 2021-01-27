@@ -4,8 +4,8 @@
 
     <local_port>231</local_port>
     <remote_port>2319</remote_port>
-    <rc_local_topology_remote_port>43922</rc_local_topology_remote_port>
-    <lrm_link_connection_request_local_port>45231</lrm_link_connection_request_local_port>
+    <rc_local_topology_remote_port>13922</rc_local_topology_remote_port>
+    <lrm_link_connection_request_local_port>15231</lrm_link_connection_request_local_port>
     <lrm_link_connection_request_remote_port>0</lrm_link_connection_request_remote_port>
     <server_address>127.0.0.1</server_address>
 

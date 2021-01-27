@@ -4,9 +4,9 @@
 
     <local_port>324</local_port>
     <remote_port>314</remote_port>
-    <rc_local_topology_remote_port>43932</rc_local_topology_remote_port>
-    <lrm_link_connection_request_local_port>45324</lrm_link_connection_request_local_port>
-    <lrm_link_connection_request_remote_port>45314</lrm_link_connection_request_remote_port>
+    <rc_local_topology_remote_port>13932</rc_local_topology_remote_port>
+    <lrm_link_connection_request_local_port>15324</lrm_link_connection_request_local_port>
+    <lrm_link_connection_request_remote_port>15314</lrm_link_connection_request_remote_port>
     <server_address>127.0.0.1</server_address>
 
 </configuration>

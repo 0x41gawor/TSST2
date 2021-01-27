@@ -46,7 +46,7 @@ No i wiadomo, że w tej podsieci wszystkie porty postaci 11x należą do CC_R11.
 | CC_R02 |         42021          |         42022         |
 | CC_R03 |         42031          |         42032         |
 | CC_R11 |         42111          |         42112         |
-| CC_R12 |         42111          |         42112         |
+| CC_R12 |         42121          |         42112         |
 | CC_R13 |         42131          |         42132         |
 | CC_R14 |         42141          |         42142         |
 | CC_R21 |         42211          |         42212         |

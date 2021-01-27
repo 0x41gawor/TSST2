@@ -3,15 +3,15 @@
 <configuration>
 
     <!--Local port of own ConnectionRequest listener-->
-    <ncc_connection_request_local_port>41821</ncc_connection_request_local_port>
+    <ncc_connection_request_local_port>11821</ncc_connection_request_local_port>
     <!--Local port of own CallCoordination listener-->
-    <ncc_call_cooridnation_local_port>41822</ncc_call_cooridnation_local_port>
+    <ncc_call_cooridnation_local_port>11822</ncc_call_cooridnation_local_port>
     <!--Local port of own CallTeardown listener-->
-    <ncc_call_teardown_local_port>41823</ncc_call_teardown_local_port>
+    <ncc_call_teardown_local_port>11823</ncc_call_teardown_local_port>
     <!--Remote port of domain CC ConnectionRequest listener -->
-    <cc_connection_request_remote_port>42821</cc_connection_request_remote_port>
+    <cc_connection_request_remote_port>12821</cc_connection_request_remote_port>
     <!--Remote port of next NCC CallCoordination listener -->
-    <ncc_call_coordination_remote_port>41812</ncc_call_coordination_remote_port>
+    <ncc_call_coordination_remote_port>11812</ncc_call_coordination_remote_port>
 
 
     <!--Dict client port by client name -->

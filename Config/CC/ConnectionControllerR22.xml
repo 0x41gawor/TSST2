@@ -4,9 +4,9 @@
     <!--Type of Connection Controller-->
     <cc_type>node</cc_type>
     <!--Local port of own ConnectionRequest listener-->
-    <cc_connection_request_listener_local_port>42221</cc_connection_request_listener_local_port>
+    <cc_connection_request_listener_local_port>12221</cc_connection_request_listener_local_port>
     <!--Local port of own CallCoordination listener-->
-    <cc_call_coordination_listener_local_port>42222</cc_call_coordination_listener_local_port>
+    <cc_call_coordination_listener_local_port>12222</cc_call_coordination_listener_local_port>
     <!--Localhost Ip-->
     <server_address>127.0.0.1</server_address>
 
@@ -33,15 +33,15 @@
         
         <element>
             <cc_name>CC_R21</cc_name>
-            <cc_peer_coordination_local_port>42212</cc_peer_coordination_local_port>
+            <cc_peer_coordination_local_port>12212</cc_peer_coordination_local_port>
         </element>
         <element>
             <cc_name>CC_R22</cc_name>
-            <cc_peer_coordination_local_port>42222</cc_peer_coordination_local_port>
+            <cc_peer_coordination_local_port>12222</cc_peer_coordination_local_port>
         </element>
         <element>
             <cc_name>CC_R23</cc_name>
-            <cc_peer_coordination_local_port>42232</cc_peer_coordination_local_port>
+            <cc_peer_coordination_local_port>12232</cc_peer_coordination_local_port>
         </element>
        
     </cc_peer_coordination_local_port_by_cc_name>

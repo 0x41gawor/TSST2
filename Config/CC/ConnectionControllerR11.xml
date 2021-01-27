@@ -4,9 +4,9 @@
     <!--Type of Connection Controller-->
     <cc_type>node</cc_type>
     <!--Local port of own ConnectionRequest listener-->
-    <cc_connection_request_listener_local_port>42111</cc_connection_request_listener_local_port>
+    <cc_connection_request_listener_local_port>12111</cc_connection_request_listener_local_port>
     <!--Local port of own CallCoordination listener-->
-    <cc_call_coordination_listener_local_port>42112</cc_call_coordination_listener_local_port>
+    <cc_call_coordination_listener_local_port>12112</cc_call_coordination_listener_local_port>
     <!--Localhost Ip-->
     <server_address>127.0.0.1</server_address>
 
@@ -37,19 +37,19 @@
         
         <element>
             <cc_name>CC_R11</cc_name>
-            <cc_peer_coordination_local_port>42112</cc_peer_coordination_local_port>
+            <cc_peer_coordination_local_port>12112</cc_peer_coordination_local_port>
         </element>
         <element>
             <cc_name>CC_R12</cc_name>
-            <cc_peer_coordination_local_port>42122</cc_peer_coordination_local_port>
+            <cc_peer_coordination_local_port>12122</cc_peer_coordination_local_port>
         </element>
         <element>
             <cc_name>CC_R13</cc_name>
-            <cc_peer_coordination_local_port>42132</cc_peer_coordination_local_port>
+            <cc_peer_coordination_local_port>12132</cc_peer_coordination_local_port>
         </element>
         <element>
             <cc_name>CC_R14</cc_name>
-            <cc_peer_coordination_local_port>42142</cc_peer_coordination_local_port>
+            <cc_peer_coordination_local_port>12142</cc_peer_coordination_local_port>
         </element>
         
     </cc_peer_coordination_local_port_by_cc_name>

@@ -2,9 +2,9 @@
 
 <configuration>
 
-    <rc_route_table_query_local_port>43811</rc_route_table_query_local_port>
-    <rc_local_topology_local_port>43812</rc_local_topology_local_port>  
-    <rc_network_topology_local_port>43813</rc_network_topology_local_port>
+    <rc_route_table_query_local_port>13811</rc_route_table_query_local_port>
+    <rc_local_topology_local_port>13812</rc_local_topology_local_port>  
+    <rc_network_topology_local_port>13813</rc_network_topology_local_port>
     
     <route_table>
         <row>

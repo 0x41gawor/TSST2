@@ -24,11 +24,11 @@
         
         <element>
             <cc_name>CC_R31</cc_name>
-            <cc_connection_request_local_port>42311</cc_connection_request_local_port>
+            <cc_connection_request_local_port>12311</cc_connection_request_local_port>
         </element>
         <element>
             <cc_name>CC_R32</cc_name>
-            <cc_connection_request_local_port>42321</cc_connection_request_local_port>
+            <cc_connection_request_local_port>12321</cc_connection_request_local_port>
         </element>
         
     </cc_connection_request_local_port_by_cc_name>

@@ -36,15 +36,15 @@
         
         <element>
             <cc_name>CC_R01</cc_name>
-            <cc_connection_request_local_port>42011</cc_connection_request_local_port>
+            <cc_connection_request_local_port>12011</cc_connection_request_local_port>
         </element>
         <element>
             <cc_name>CC_R02</cc_name>
-            <cc_connection_request_local_port>42021</cc_connection_request_local_port>
+            <cc_connection_request_local_port>12021</cc_connection_request_local_port>
         </element>
         <element>
             <cc_name>CC_R03</cc_name>
-            <cc_connection_request_local_port>42031</cc_connection_request_local_port>
+            <cc_connection_request_local_port>12031</cc_connection_request_local_port>
         </element>
         
     </cc_connection_request_local_port_by_cc_name>
@@ -54,11 +54,11 @@
         
         <element>
             <cc_name>CC_SN1</cc_name>
-            <cc_peer_coordination_local_port>42912</cc_peer_coordination_local_port>
+            <cc_peer_coordination_local_port>12912</cc_peer_coordination_local_port>
         </element>
         <element>
             <cc_name>CC_SN2</cc_name>
-            <cc_peer_coordination_local_port>42922</cc_peer_coordination_local_port>
+            <cc_peer_coordination_local_port>12922</cc_peer_coordination_local_port>
         </element>
         
     </cc_peer_coordination_local_port_by_cc_name>
