@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+    <!--Type of Connection Controller-->
+    <cc_type>domain</cc_type>
+    <!--Local port of second domain CC PeerCoordination listener-->
+    <cc_peer_coordination_local_port>43812</cc_peer_coordination_local_port>
+    <server_address>127.0.0.1</server_address>
+
+    <!--With this dict CC knows by subnetowrk CC names by port-->
+    <cc_name_by_port>
+        <element>
+            <port>0xx</port>
+            <cc_name>CC_SN0</cc_name>
+        </element>
+        <element>
+            <port>1xx</port>
+            <cc_name>CC_SN1</cc_name>
+        </element>
+         <element>
+            <port>2xx</port>
+            <cc_name>CC_SN2</cc_name>
+        </element>
+    </cc_name_by_port>
+    
+    <!--With this dict CC knows local port of CC:ConnectionRequest listener of its subnetwork CCs-->
+    <connection_request_local_port_by_cc_name>
+        <element>
+             <cc_name>CC_SN0</cc_name>
+            <connection_request_local_port>42901</connection_request_local_port>
+        </element>
+        <element>
+             <cc_name>CC_SN1</cc_name>
+            <connection_request_local_port>42911</connection_request_local_port>
+        </element>
+        <element>
+             <cc_name>CC_SN2</cc_name>
+            <connection_request_local_port>42921</connection_request_local_port>
+        </element>
+    </connection_request_local_port_ByPort>
+
+</configuration>

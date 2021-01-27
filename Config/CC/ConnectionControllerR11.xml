@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+    <!--Type of Connection Controller-->
+    <cc_type>node</cc_type>
+    <server_address>127.0.0.1</server_address>
+
+    <!--With this dict subnetwork CC knows it's peer node CCs names by `end` from LRM::LinkConnectionRequest-->
+    <cc_name_by_port>
+        <element>
+            <port>11x</port>
+            <cc_name>CC_R11</cc_name>
+        </element>
+        <element>
+            <port>12x</port>
+            <cc_name>CC_R12</cc_name>
+        </element>
+        <element>
+            <port>13x</port>
+            <cc_name>CC_R13</cc_name>
+        </element>
+        <element>
+            <port>14x</port>
+            <cc_name>CC_R14</cc_name>
+        </element>
+    </cc_name_by_port>
+
+    <!--With this dict subnetwork CC knows it's peer node CCs local ports of CC:PeerCoordination listeners by CC name-->
+    <cc_peer_coordination_local_port_by_cc_name>
+        <element>
+            <cc_name>CC_R11</cc_name>
+            <cc_peer_coordination_local_port>42112</cc_peer_coordination_local_port>
+        </element>
+        <element>
+            <cc_name>CC_R12</cc_name>
+            <cc_peer_coordination_local_port>42122</cc_peer_coordination_local_port>
+        </element>
+        <element>
+            <cc_name>CC_R13</cc_name>
+            <cc_peer_coordination_local_port>42132</cc_peer_coordination_local_port>
+        </element>
+        <element>
+            <cc_name>CC_R14</cc_name>
+            <cc_peer_coordination_local_port>42142</cc_peer_coordination_local_port>
+        </element>
+    </cc_peer_coordination_local_port_by_cc_name>
+
+
+</configuration>
