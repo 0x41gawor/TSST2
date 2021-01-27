@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+    <!--Type of Connection Controller-->
+    <cc_type>subnetwork</cc_type>
+    <server_address>127.0.0.1</server_address>
+
+    <!--With this dict subnetwork CC knows it's node CCs names by `src` or other subnetwork CC name by `end` from LRM::LinkConnectionRequest-->
+    <cc_name_by_port>
+        
+        <element>
+            <port>01x</port>
+            <cc_name>CC_R01</cc_name>
+        </element>
+         <element>
+            <port>02x</port>
+            <cc_name>CC_R02</cc_name>
+        </element>
+         <element>
+            <port>013x</port>
+            <cc_name>CC_R03</cc_name>
+        </element>
+        <element>
+            <port>1xx</port>
+            <cc_name>CC_SN1</cc_name>
+        </element>
+        <element>
+            <port>2xx</port>
+            <cc_name>CC_SN2</cc_name>
+        </element>
+        
+    </cc_name_by_port>
+
+    <!--With this dict subnetwork CC knows local port of CC::ConnectionRequest listener by CC name-->
+    <cc_connection_request_local_port_by_cc_name>
+        
+        <element>
+            <cc_name>CC_R01</cc_name>
+            <cc_connection_request_local_port>42011</cc_connection_request_local_port>
+        </element>
+        <element>
+            <cc_name>CC_R02</cc_name>
+            <cc_connection_request_local_port>42021</cc_connection_request_local_port>
+        </element>
+        <element>
+            <cc_name>CC_R03</cc_name>
+            <cc_connection_request_local_port>42031</cc_connection_request_local_port>
+        </element>
+        
+    </cc_connection_request_local_port_by_cc_name>
+
+    <!--With this dict subnetwork CC knows local port of CC::PeerCoordination listener by CC name-->
+    <cc_peer_coordination_local_port_by_cc_name>
+        
+        <element>
+            <cc_name>CC_SN1</cc_name>
+            <cc_peer_coordination_local_port>42912</cc_peer_coordination_local_port>
+        </element>
+        <element>
+            <cc_name>CC_SN2</cc_name>
+            <cc_peer_coordination_local_port>42922</cc_peer_coordination_local_port>
+        </element>
+        
+    </cc_peer_coordination_local_port_by_cc_name>
+    
+</configuration>
