@@ -4,7 +4,7 @@
 
     <local_port>023</local_port>
     <remote_port>034</remote_port>
-    <rc_local_topology_local_port>43812</rc_local_topology_local_port>
+    <rc_local_topology_remote_port>43902</rc_local_topology_remote_port>
     <lrm_link_connection_request_local_port>45023</lrm_link_connection_request_local_port>
     <lrm_link_connection_request_remote_port>45034</lrm_link_connection_request_remote_port>
     <server_address>127.0.0.1</server_address>

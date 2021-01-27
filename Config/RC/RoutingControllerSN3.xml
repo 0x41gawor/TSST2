@@ -2,6 +2,8 @@
 
 <configuration>
 
+    <rc_local_topology_local_port>43932</rc_local_topology_local_port>
+
     <route_table>
         <row>
             <src>31x</src>
