@@ -7,6 +7,7 @@
 
     <!--With this dict subnetwork CC knows it's node CCs names by `src` or other subnetwork CC name by `end` from LRM::LinkConnectionRequest-->
     <cc_name_by_port>
+        
         <element>
             <port>11x</port>
             <cc_name>CC_R11</cc_name>
@@ -27,10 +28,12 @@
             <port>0xx</port>
             <cc_name>CC_SN0</cc_name>
         </element>    
+        
     </cc_name_by_port>
 
     <!--With this dict subnetwork CC knows local port of CC::ConnectionRequest listener by CC name-->
     <cc_connection_request_local_port_by_cc_name>
+        
         <element>
             <cc_name>CC_R11</cc_name>
             <cc_connection_request_local_port>42111</cc_connection_request_local_port>
@@ -47,14 +50,17 @@
             <cc_name>CC_R14</cc_name>
             <cc_connection_request_local_port>42141</cc_connection_request_local_port>
         </element>
+        
     </cc_connection_request_local_port_by_cc_name>
 
     <!--With this dict subnetwork CC knows local port of CC::PeerCoordination listener by CC name-->
     <cc_peer_coordination_local_port_by_cc_name>
+        
         <element>
             <cc_name>CC_SN0</cc_name>
             <cc_peer_coordination_local_port>42902</cc_peer_coordination_local_port>
         </element>
+        
     </cc_peer_coordination_local_port_by_cc_name>
 
 

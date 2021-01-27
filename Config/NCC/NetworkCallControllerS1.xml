@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <configuration>
-
-    <cc_connection_request_local_port>42811</cc_connection_request_local_port>
-    <ncc_call_coordination_local_port>41822</ncc_call_coordination_local_port>
+    <!--Local port of own ConnectionRequest listener-->
+    <ncc_connection_request_local_port>41811</ncc_connection_request_local_port>
+    <!--Local port of own CallCoordination listener-->
+    <ncc_call_cooridnation_local_port>41812</ncc_call_cooridnation_local_port>
+    <!--Local port of own CallTeardown listener-->
+    <ncc_call_teardown_local_port>41813</ncc_call_teardown_local_port>
+    <!--Remote port of domain CC ConnectionRequest listener -->
+    <cc_connection_request_remote_port>42811</cc_connection_request_remote_port>
+    <!--Remote port of next NCC CallCoordination listener -->
+    <ncc_call_coordination_remote_port>41822</ncc_call_coordination_remote_port>
 
     <client_ports>
+        
         <row>
             <client_name>Ania</client_name>
             <client_port>141</client_port>
@@ -25,6 +33,33 @@
             <client_name>Franek</client_name>
             <client_port>231</client_port>
         </row>
+
+        <row>
+            <client_name>Abacki</client_name>
+            <client_port>333</client_port>
+        </row>
+
+        <row>
+            <client_name>Babacki</client_name>
+            <client_port>335</client_port>
+        </row>
+
+        <row>
+            <client_name>Cacacki</client_name>
+            <client_port>321</client_port>
+        </row>
+
+        <row>
+            <client_name>Dadacki</client_name>
+            <client_port>322</client_port>
+        </row>
+
+        <row>
+            <client_name>Fafacki</client_name>
+            <client_port>322</client_port>
+        </row>
+        
+        
     </client_ports>
     
 </configuration>

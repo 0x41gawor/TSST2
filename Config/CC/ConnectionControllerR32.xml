@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+    <!--Type of Connection Controller-->
+    <cc_type>node</cc_type>
+    <!--Local port of own ConnectionRequest listener-->
+    <cc_connection_request_listener_local_port>42321</cc_connection_request_listener_local_port>
+    <!--Local port of own CallCoordination listener-->
+    <cc_call_coordination_listener_local_port>42322</cc_call_coordination_listener_local_port>
+    <!--Localhost Ip-->
+    <server_address>127.0.0.1</server_address>
+
+    <!--With this dict subnetwork CC knows it's peer node CCs names by `end` from LRM::LinkConnectionRequest-->
+    <cc_name_by_port>
+        
+        <element>
+            <port>31x</port>
+            <cc_name>CC_R31</cc_name>
+        </element>
+        <element>
+            <port>32x</port>
+            <cc_name>CC_R32</cc_name>
+        </element>
+        
+    </cc_name_by_port>
+
+    <!--With this dict subnetwork CC knows it's peer node CCs local ports of CC:PeerCoordination listeners by CC name-->
+    <cc_peer_coordination_local_port_by_cc_name>
+        
+        <element>
+            <cc_name>CC_R31</cc_name>
+            <cc_peer_coordination_local_port>42312</cc_peer_coordination_local_port>
+        </element>
+        <element>
+            <cc_name>CC_R32</cc_name>
+            <cc_peer_coordination_local_port>42322</cc_peer_coordination_local_port>
+        </element>
+        
+    </cc_peer_coordination_local_port_by_cc_name>
+
+
+</configuration>
