@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+
+    <cc_connection_request_local_port>42821</cc_connection_request_local_port>
+    <ncc_call_coordination_local_port>41812</ncc_call_coordination_local_port>
+    
+    <client_ports>
+        <row>
+            <client_name>Abacki</client_name>
+            <client_port>333</client_port>
+        </row>
+
+        <row>
+            <client_name>Babacki</client_name>
+            <client_port>335</client_port>
+        </row>
+
+        <row>
+            <client_name>Cacacki</client_name>
+            <client_port>321</client_port>
+        </row>
+
+        <row>
+            <client_name>Dadacki</client_name>
+            <client_port>322</client_port>
+        </row>
+
+        <row>
+            <client_name>Fafacki</client_name>
+            <client_port>323</client_port>
+        </row>
+    </client_ports>
+    
+</configuration>

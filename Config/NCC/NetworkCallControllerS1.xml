@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+
+    <cc_connection_request_local_port>42811</cc_connection_request_local_port>
+    <ncc_call_coordination_local_port>41822</ncc_call_coordination_local_port>
+
+    <client_ports>
+        <row>
+            <client_name>Ania</client_name>
+            <client_port>141</client_port>
+        </row>
+
+        <row>
+            <client_name>Bartek</client_name>
+            <client_port>131</client_port>
+        </row>
+
+        <row>
+            <client_name>Janek</client_name>
+            <client_port>221</client_port>
+        </row>
+
+        <row>
+            <client_name>Franek</client_name>
+            <client_port>231</client_port>
+        </row>
+    </client_ports>
+    
+</configuration>

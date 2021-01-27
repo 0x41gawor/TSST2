@@ -37,6 +37,7 @@
             <src>3xx</src>
             <dst>xxx</dst>
             <gateway>312,311</gateway>
+        </row>
     </route_table>
 
 </configuration>
