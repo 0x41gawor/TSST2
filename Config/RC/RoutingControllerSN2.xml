@@ -2,7 +2,9 @@
 
 <configuration>
 
+    <rc_route_table_query_local_port>43921</rc_route_table_query_local_port>
     <rc_local_topology_local_port>43922</rc_local_topology_local_port>
+    <rc_network_topology_local_port>43923</rc_network_topology_local_port>
 
     <route_table>
         <row>

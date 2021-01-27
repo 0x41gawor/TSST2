@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <configuration>
-
+    
+    <rc_route_table_query_local_port>43911</rc_route_table_query_local_port>
     <rc_local_topology_local_port>43912</rc_local_topology_local_port>
+    <rc_network_topology_local_port>43913</rc_network_topology_local_port>
 
     <route_table>
         <row>
