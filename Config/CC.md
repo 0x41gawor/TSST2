@@ -22,10 +22,10 @@ int port = PeerCoordination[CC];
 
 |   CC   | ConnectionRequest port | PeerCoordination port |
 | :----: | :--------------------: | :-------------------: |
-| CC_R11 |         42111          |         42112         |
-| CC_R12 |         42111          |         42112         |
-| CC_R13 |         42131          |         42132         |
-| CC_R14 |         42141          |         42142         |
+| CC_R11 |         12111          |         12112         |
+| CC_R12 |         12111          |         12112         |
+| CC_R13 |         12131          |         12132         |
+| CC_R14 |         12141          |         12142         |
 
 No i wiadomo, że w tej podsieci wszystkie porty postaci 11x należą do CC_R11. Więc to do niego należy zwrócić się gdy:
 
@@ -36,24 +36,24 @@ No i wiadomo, że w tej podsieci wszystkie porty postaci 11x należą do CC_R11.
 
 |   CC   | ConnectionRequest port | PeerCoordination port |
 | :----: | :--------------------: | :-------------------: |
-| CC_s1  |         42811          |         42812         |
-| CC_s2  |         42821          |         42822         |
-| CC_SN0 |         42901          |         42902         |
-| CC_SN1 |         42911          |         42912         |
-| CC_SN2 |         42921          |         42922         |
-| CC_SN3 |         42931          |         42932         |
-| CC_R01 |         42011          |         42012         |
-| CC_R02 |         42021          |         42022         |
-| CC_R03 |         42031          |         42032         |
-| CC_R11 |         42111          |         42112         |
-| CC_R12 |         42121          |         42112         |
-| CC_R13 |         42131          |         42132         |
-| CC_R14 |         42141          |         42142         |
-| CC_R21 |         42211          |         42212         |
-| CC_R22 |         42221          |         42222         |
-| CC_R23 |         42231          |         42232         |
-| CC_R31 |         42311          |         42312         |
-| CC_R32 |         42321          |         42322         |
+| CC_s1  |         12811          |         12812         |
+| CC_s2  |         12821          |         12822         |
+| CC_SN0 |         12901          |         12902         |
+| CC_SN1 |         12911          |         12912         |
+| CC_SN2 |         12921          |         12922         |
+| CC_SN3 |         12931          |         12932         |
+| CC_R01 |         12011          |         12012         |
+| CC_R02 |         12021          |         12022         |
+| CC_R03 |         12031          |         12032         |
+| CC_R11 |         12111          |         12112         |
+| CC_R12 |         12121          |         12112         |
+| CC_R13 |         12131          |         12132         |
+| CC_R14 |         12141          |         12142         |
+| CC_R21 |         12211          |         12212         |
+| CC_R22 |         12221          |         12222         |
+| CC_R23 |         12231          |         12232         |
+| CC_R31 |         12311          |         12312         |
+| CC_R32 |         12321          |         12322         |
 
 ## Co trzeba wczytać z konfiguracji
 

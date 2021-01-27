@@ -174,7 +174,7 @@ Zawłaszczymy sobie zakres: 40 000 - 49 151
 
 No więc jest sobie kombinacja pięciu cyfr.
 
-- Pierwsza to 4
+- Pierwsza to 1
 - Druga identyfikuje typ komponentu ASON:
   - 1 - NCC
   - 2 - CC
@@ -189,7 +189,7 @@ No więc jest sobie kombinacja pięciu cyfr.
 
 Numer portu dla NCC w ogólności wygląda tak:
 
-**41xyz**
+**11xyz**
 
 Gdzie:
 
@@ -209,7 +209,7 @@ Gdzie:
 
 Numer portu dla CC w ogólności wygląda tak:
 
-**42xyz**
+**12xyz**
 
 Gdzie:
 
@@ -257,7 +257,7 @@ Gdzie:
 
 Numer portu dla RC w ogólności wygląda tak:
 
-**43xyz**
+**13xyz**
 
 Gdzie:
 
@@ -293,7 +293,7 @@ Gdzie:
 
 Numer portu dla CPCC w ogólności wygląda tak:
 
-**44xyz**
+**14xyz**
 
 Gdzie:
 
@@ -307,7 +307,7 @@ Gdzie:
 
 Numer portu dla LRM w ogólności wygląda tak:
 
-**45xyz**
+**15xyz**
 
 Gdzie:
 
