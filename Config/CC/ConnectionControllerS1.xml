@@ -6,7 +6,7 @@
     <!--Local port of own ConnectionRequest listener-->
     <cc_connection_request_listener_local_port>12811</cc_connection_request_listener_local_port>
     <!--Local port of own PeerCoordination listener-->
-    <cc_connection_request_listener_local_port>12812</cc_connection_request_listener_local_port>
+    <cc_peer_coordination_local_port>12812</cc_peer_coordination_local_port>
     <!--Remote port of second domain CC PeerCoordination listener-->
     <cc_peer_coordination_remote_port>13822</cc_peer_coordination_remote_port>
     <!--Localhost ip-->

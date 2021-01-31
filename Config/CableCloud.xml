@@ -5,48 +5,48 @@
     <cable_cloud_address>127.0.0.1</cable_cloud_address>
     <cable_cloud_port>3001</cable_cloud_port>
 
-    <links>
+    <connections>
         <!--Clients to SN1-->
-        <link>141,1419</link>
-        <link>131,1319</link>
+        <connection>141,1419</connection>
+        <connection>131,1319</connection>
         <!--Clients to SN2-->
-        <link>221,2219</link>
-        <link>231,2319</link>
+        <connection>221,2219</connection>
+        <connection>231,2319</connection>
          <!--Clients to SN3-->
-        <link>333,3339</link>
-        <link>335,3359</link>
-        <link>321,3219</link>
-        <link>322,3229</link>
-        <link>323,3239</link>
+        <connection>333,3339</connection>
+        <connection>335,3359</connection>
+        <connection>321,3219</connection>
+        <connection>322,3229</connection>
+        <connection>323,3239</connection>
 
         <!--SN0-->
-        <link>014,033</link>
-        <link>013,024</link>
-        <link>034,023</link>
+        <connection>014,033</connection>
+        <connection>013,024</connection>
+        <connection>034,023</connection>
          <!--SN1-->
-        <link>142,115</link>
-        <link>143,122</link>
-        <link>144,132</link>
-        <link>133,114</link>
-        <link>134,121</link>
-        <link>123,113</link>
+        <connection>142,115</connection>
+        <connection>143,122</connection>
+        <connection>144,132</connection>
+        <connection>133,114</connection>
+        <connection>134,121</connection>
+        <connection>123,113</connection>
          <!--SN2-->
-        <link>232,214</link>
-        <link>213,223</link>
-        <link>233,222</link>
+        <connection>232,214</connection>
+        <connection>213,223</connection>
+        <connection>233,222</connection>
         <!--SN3-->
-        <link>334,324</link>
+        <connection>334,324</connection>
 
         <!--SN1 to SN0-->
-        <link>111,011</link>
-        <link>112,032</link>
+        <connection>111,011</connection>
+        <connection>112,032</connection>
         <!--SN2 to SN0-->
-        <link>211,031</link>
-        <link>212,022</link>
+        <connection>211,031</connection>
+        <connection>212,022</connection>
         <!--SN3 to SN0-->
-        <link>312,012</link>
-        <link>311,021</link>
+        <connection>312,012</connection>
+        <connection>311,021</connection>
         
-    </links>
+    </connections>
 
 </configuration>

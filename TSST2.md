@@ -1,6 +1,6 @@
 # TSST 2
 
-## 1 Wstemp
+## 1 Wstęp
 
 Tu są takie początkowe idee tego wszystkiego. Wysyłam, żeby od razu skrytykować te pomysły zanim zaczniemy w to brnąć. Ogólnie strasznie pogmatwane to jest, ten projekt2, duża dowolność, czasem ASON się kłóci z tymi sieciami telefonicznymi, co AT pokazuje. Też zrobiłem tak sieć, żeby były w niej wszystkie bajery, jak poziomy hierarchii, partitioning (to jest na 100% wymagane), role węzłów i nie wiem czy one wszystkie są wymagane, oraz czy niektóre w połączeniu z pomysłami telekomunistów z lat 80 się nieco wykluczają, dlatego nie ma tu żadnego systemu podanego na wykładzie, a jedynie inspirację. To co tu jest łupane, wydaje mi się na ten moment, że jest do zrobienia, mniej więcej jakoś tam każdy problem mam przemyślany jak to może wyglądać, ale bez konkretów.
 
@@ -14,7 +14,7 @@ Wysyłam taką małą jak na razie porcję, ~~bo więcej nie mam~~ bo:
 - Żebyście się mogli zapoznać z ogólną ideą. Dużo lepiej niż dostać na ryj 15 stron tekstu.
 - Nie ma tu opisanych dokładnych zasad sterowania, temat jest do dyskusji i znowu co trzy głowy to nie jedna.
 
-## 2 No to jazda
+## 2 EON
 
 Opisując taki scenariusz jaki będzie prezentowany na obronie projektu to...
 
@@ -205,7 +205,7 @@ Z inspiracji 1 bierzemy kierowanie ruchu w podsieci (gdzie sieć globalną też 
 
 Z inspiracji 2 bierzemy 2 płaszczyzny hierarchii oraz mechanizm podziału obciążeń (wzajemny przelew sam się zaimplementuje, bo w podsieci tranzytowej robimy inspirację 1). Zmieniamy tą rzecz, że nie wszystkie węzły podsieci są połączone z nadrzędnymi, a jedynie węzeł pełniący rolę węzła wyjściowego.
 
-## 6 Scemariusze
+## 6 Scenariusze
 
 Polecam je tak czytać, że najpierw jeden monitor rysunek, drugi monitor opis krokowy, w głowie nieco wiedzy ASON'a i pod każdym krokiem, to co napisałem "quot'em", to takie pierwsze przybliżenie.
 
@@ -775,7 +775,7 @@ Wysyła CPCC, żeby zakończyć połączenie.
 - **CallTeardownPYT(id)**
   - **id**: id - id połączenia, które ma zostać przerwane
 - **CallTeardownODP**(res)
-  - res: res - odpowiedź OK, gdy sieć zakończy połączenie
+  - **res**: res - odpowiedź OK, gdy sieć zakończy połączenie
 
 **NCC::CallCoordination**
 Korzysta z niego NCC innej strefy, żeby przedłużyć połączenie do tej strefy.
@@ -783,7 +783,7 @@ Korzysta z niego NCC innej strefy, żeby przedłużyć połączenie do tej stref
 - **CallCoordinationPYT(srcName, dstName, sl)**
   - takie same jak w NCC::ConnectionRequestPYT
 - **CallCoordinationODP(res)**
-  - res: res - OK, gdy pozwalamy Ani się połączyć z Babackim, REFUSED gdy nie.
+  - **res**: res - OK, gdy pozwalamy Ani się połączyć z Babackim, REFUSED gdy nie.
 
 **Struktury danych**
 
